@@ -28,13 +28,13 @@ class TestcontainersExtension : BeforeAllCallback {
   }
 
   private fun startKeycloakContainer(config: ContainerConfig) {
-    val imageTag = config.overrideImageTag ?: "20.0.2"
-    val container = KeycloakContainer("keycloak:$imageTag")
+    val container = KeycloakContainer("keycloak:20.0.2").withRealmImportFile("keycloak-realm.json")
   }
 
   private fun startPostgresContainer(config: ContainerConfig) {
-    val imageTag = config.overrideImageTag ?: "14.5"
-    val container = PostgreSQLContainer("postgres:${config.overrideImageTag}")
+    val container =
+      PostgreSQLContainer("postgres:14.5").withUsername("username").withPassword("password")
+    // TODO what about database name?
   }
 
   private fun getContainers(output: String): List<String> =
