@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 
 class TestcontainersExtension : BeforeAllCallback {
   private val resolver = DefaultConfigResolver()
+
   override fun beforeAll(context: ExtensionContext) {
     val config = resolver.resolve()
     TODO("Not yet implemented")
