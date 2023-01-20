@@ -15,11 +15,11 @@ class TestcontainersExtension : BeforeAllCallback {
         .map { getContainers(it) }
         .getOrElse { listOf() }
 
-    if (!containers.contains(config.postgres.externalName)) {
+    if (config.postgres.enable && !containers.contains(config.postgres.externalName)) {
       startPostgresContainer()
     }
 
-    if (!containers.contains(config.keycloak.externalName)) {
+    if (config.keycloak.enable && !containers.contains(config.keycloak.externalName)) {
       startKeycloakContainer()
     }
   }
