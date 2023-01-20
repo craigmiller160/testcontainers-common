@@ -14,8 +14,19 @@ class TestcontainersExtension : BeforeAllCallback {
       runCatching { Terminal.runCommand("docker ps") }
         .map { getContainers(it) }
         .getOrElse { listOf() }
-    TODO("Not yet implemented")
+
+    if (!containers.contains(config.postgres.externalName)) {
+      startPostgresContainer()
+    }
+
+    if (!containers.contains(config.keycloak.externalName)) {
+      startKeycloakContainer()
+    }
   }
+
+  private fun startKeycloakContainer() {}
+
+  private fun startPostgresContainer() {}
 
   private fun getContainers(output: String): List<String> =
     output
