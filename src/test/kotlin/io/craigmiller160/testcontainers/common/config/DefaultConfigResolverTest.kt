@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 class DefaultConfigResolverTest {
   @Test
   fun `resolves configuration`() {
-    TODO()
+    val resolver = DefaultConfigResolver()
+    val config = resolver.resolve()
   }
 }
