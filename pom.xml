@@ -23,6 +23,7 @@
         <snakeyaml.version>1.33</snakeyaml.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <java.version>18</java.version>
+        <assertj.version>3.24.2</assertj.version>
     </properties>
 
     <dependencyManagement>
@@ -145,6 +146,12 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>

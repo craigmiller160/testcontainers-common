@@ -1,22 +1,23 @@
 package io.craigmiller160.testcontainers.common.service
 
 import dasniko.testcontainers.keycloak.KeycloakContainer
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import org.testcontainers.containers.PostgreSQLContainer
 
 object TestcontainersService {
   fun startContainers(config: TestcontainersCommonConfig) {
-    if (config.postgres.enable) {
-      startPostgresContainer(config.postgres)
+    if (config.postgres?.enable == true) {
+      startPostgresContainer()
     }
 
-    if (config.keycloak.enable) {
-      startKeycloakContainer(config.keycloak)
+    if (config.keycloak?.enable == true) {
+      startKeycloakContainer()
     }
   }
 
-  private fun startKeycloakContainer(config: ContainerConfig) {
+  // TODO setup constants
+
+  private fun startKeycloakContainer() {
     val container =
       KeycloakContainer("keycloak:20.0.2")
         .withRealmImportFile("keycloak-realm.json")
@@ -25,7 +26,7 @@ object TestcontainersService {
     System.setProperty("keycloak.auth-server-url", container.authServerUrl)
   }
 
-  private fun startPostgresContainer(config: ContainerConfig) {
+  private fun startPostgresContainer() {
     val container =
       PostgreSQLContainer("postgres:14.5")
         .withUsername("username")
