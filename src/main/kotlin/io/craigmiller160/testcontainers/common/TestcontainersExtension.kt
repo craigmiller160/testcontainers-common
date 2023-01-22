@@ -41,7 +41,6 @@ class TestcontainersExtension : BeforeAllCallback {
         .withPassword("password")
         .withDatabaseName("test")
         .withReuse(true)
-    // TODO what about database name?
   }
 
   private fun getContainers(output: String): List<String> =
