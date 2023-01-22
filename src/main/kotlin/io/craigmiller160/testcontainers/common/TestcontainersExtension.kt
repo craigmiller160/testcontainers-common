@@ -32,6 +32,8 @@ class TestcontainersExtension : BeforeAllCallback {
       KeycloakContainer("keycloak:20.0.2")
         .withRealmImportFile("keycloak-realm.json")
         .withReuse(true)
+        .also { it.start() }
+    System.setProperty("keycloak.auth-server-url", container.authServerUrl)
   }
 
   private fun startPostgresContainer(config: ContainerConfig) {
@@ -41,6 +43,10 @@ class TestcontainersExtension : BeforeAllCallback {
         .withPassword("password")
         .withDatabaseName("test")
         .withReuse(true)
+        .also { it.start() }
+    System.setProperty("postgres.url", container.jdbcUrl)
+    System.setProperty("postgres.password", container.password)
+    System.setProperty("postgres.username", container.username)
   }
 
   private fun getContainers(output: String): List<String> =
