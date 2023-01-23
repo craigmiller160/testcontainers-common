@@ -5,17 +5,25 @@ import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import org.testcontainers.containers.PostgreSQLContainer
 
 object TestcontainerInitializer {
-  fun initialize(config: TestcontainersCommonConfig) {
-    if (config.postgres?.enable == true) {
-      startPostgresContainer()
-    }
+  fun initialize(config: TestcontainersCommonConfig): ContainerInitializationResult {
+    val postgresStatus =
+      if (config.postgres?.enable == true) {
+        startPostgresContainer()
+      } else {
+        ContainerStatus.DISABLED
+      }
 
-    if (config.keycloak?.enable == true) {
-      startKeycloakContainer()
-    }
+    val keycloakStatus =
+      if (config.keycloak?.enable == true) {
+        startKeycloakContainer()
+      } else {
+        ContainerStatus.DISABLED
+      }
+
+    return ContainerInitializationResult(postgres = postgresStatus, keycloak = keycloakStatus)
   }
 
-  private fun startKeycloakContainer() {
+  private fun startKeycloakContainer(): ContainerStatus {
     val container =
       KeycloakContainer(TestcontainerConstants.KEYCLOAK_IMAGE)
         .withAdminUsername(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
@@ -24,9 +32,10 @@ object TestcontainerInitializer {
         .withReuse(true)
         .also { it.start() }
     System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
+    return if (container.isHealthy) ContainerStatus.STARTED else ContainerStatus.FAILED
   }
 
-  private fun startPostgresContainer() {
+  private fun startPostgresContainer(): ContainerStatus {
     val container =
       PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
         .withUsername(TestcontainerConstants.POSTGRES_USER)
@@ -37,5 +46,6 @@ object TestcontainerInitializer {
     System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
     System.setProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     System.setProperty(TestcontainerConstants.POSTGRES_USER_PROP, container.username)
+    return if (container.isHealthy) ContainerStatus.STARTED else ContainerStatus.FAILED
   }
 }

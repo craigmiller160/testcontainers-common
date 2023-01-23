@@ -11,6 +11,7 @@ class TestcontainersExtension : BeforeAllCallback {
       val resolver = DefaultConfigResolver()
       val config = resolver.resolve()
       TestcontainerInitializer.initialize(config)
+      // TODO add logging
     }
   }
 
