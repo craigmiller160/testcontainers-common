@@ -2,6 +2,7 @@ package io.craigmiller160.testcontainers.common.core
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.net.URI
 import java.util.Base64
 import java.util.UUID
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -90,6 +91,9 @@ class AuthenticationHelper {
       "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:$CLIENT_SECRET".toByteArray())}"
     val httpPost =
       HttpPost().apply {
+        uri =
+          URI.create(
+            "${System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP)}/realms/apps-dev/protocol/openid-connect/token")
         addHeader("Authorization", basicAuth)
         this.entity = entity
       }
