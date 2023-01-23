@@ -18,6 +18,8 @@ object TestcontainerInitializer {
   private fun startKeycloakContainer() {
     val container =
       KeycloakContainer(TestcontainerConstants.KEYCLOAK_IMAGE)
+        .withAdminUsername(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+        .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
         .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
         .withReuse(true)
         .also { it.start() }
