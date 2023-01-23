@@ -12,23 +12,26 @@ Simply add this extension to any test class:
 
 ## How to Configure
 
-This supports Postgres & Keycloak. A file called `testcontainers-common.yml` must exist on the classpath. It should have the following properties
+This supports Postgres & Keycloak. A file called `testcontainers-common.yml` must exist on the classpath. It should have the following properties:
 
 ```yaml
-# To enable/disable and configure postgres:
 postgres:
   enable: true
-  # The following properties are set by default if not specified here. The keys they are set to can be overridden here, though.
   propertyMappings:
-    postgres.url: spring.datasource.url
-    postgres.username: spring.datasource.username
-    postgres.password: spring.datasource.password
-# To enable/disable and configure keycloak
+    # Optional re-mapping of properties set once the container starts
 keycloak:
   enable: true
-  # The following properties are set by default if not specified here. The keys they are set to can be overridden here, though.
   propertyMappings:
-    keycloak.url: keycloak.auth-server-url
+    # Optional re-mapping of properties set once the container starts
+```
+
+For the property mappings, critical properties related to the containers are set as system properties. They are set with default keys. To re-map them to custom keys, add the mappings in the `propertyMappings` section of that container. The default keys are:
+
+```
+postgres.url
+postgres.user
+postgres.password
+keycloak.url
 ```
 
 ## How to Reuse
