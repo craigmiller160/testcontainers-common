@@ -8,7 +8,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.message.BasicNameValuePair
+import org.keycloak.admin.client.CreatedResponseUtil
 import org.keycloak.admin.client.KeycloakBuilder
+import org.keycloak.representations.idm.CredentialRepresentation
+import org.keycloak.representations.idm.UserRepresentation
 
 class AuthenticationHelper {
   companion object {
@@ -20,11 +23,15 @@ class AuthenticationHelper {
     const val CLIENT_ID_KEY = "client_id"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
+    const val ACCESS_ROLE = "access"
+    const val ADMIN_REALM = "master"
+    const val REALM = "apps-dev"
   }
 
   private val keycloak =
     KeycloakBuilder.builder()
       .serverUrl(System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP))
+      .realm(ADMIN_REALM)
       .username(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
       .password(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
       .clientId(ADMIN_CLIENT_ID)
@@ -32,6 +39,46 @@ class AuthenticationHelper {
       .build()
   private val httpClient = HttpClients.createDefault()
   private val objectMapper = jacksonObjectMapper()
+
+  fun createUser(
+    userName: String,
+    password: String,
+    roles: List<String> = listOf(ACCESS_ROLE)
+  ): TestUser {
+    val realm = keycloak.realm(REALM)
+    val kcClientId = realm.clients().findByClientId(CLIENT_ID).first().id
+    val client = realm.clients().get(kcClientId)
+    val accessRole = client.roles().get(ACCESS_ROLE).toRepresentation()
+    val users = realm.users()
+
+    val userId =
+      UserRepresentation()
+        .apply {
+          username = userName
+          isEmailVerified = true
+          isEnabled = true
+          firstName = "First $userName"
+          lastName = "Last $userName"
+          email = userName
+        }
+        .let { users.create(it) }
+        .let { CreatedResponseUtil.getCreatedId(it) }
+
+    CredentialRepresentation()
+      .apply {
+        isTemporary = false
+        type = CredentialRepresentation.PASSWORD
+        value = password
+      }
+      .let { users.get(userId).resetPassword(it) }
+
+    roles
+      .map { role -> client.roles().get(role).toRepresentation() }
+      .let { users.get(userId).roles().clientLevel(kcClientId).add(it) }
+
+    return TestUser(
+      userId = UUID.fromString(userId), userName = userName, password = password, roles = roles)
+  }
 
   fun login(testUser: TestUser): TestUserWithToken {
     val entity =
