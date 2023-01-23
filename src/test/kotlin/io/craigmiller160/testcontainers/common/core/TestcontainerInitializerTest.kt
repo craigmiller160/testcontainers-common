@@ -18,10 +18,18 @@ class TestcontainerInitializerTest {
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
 
-    assertEquals(System.getProperty("postgres.url"), result.postgresContainer?.jdbcUrl)
-    assertEquals(System.getProperty("postgres.username"), result.postgresContainer?.username)
-    assertEquals(System.getProperty("postgres.password"), result.postgresContainer?.password)
-    assertEquals(System.getProperty("keycloak.url"), result.keycloakContainer?.authServerUrl)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
+      result.postgresContainer?.jdbcUrl)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.POSTGRES_USER_PROP),
+      result.postgresContainer?.username)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP),
+      result.postgresContainer?.password)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
+      result.keycloakContainer?.authServerUrl)
   }
 
   @Test
@@ -58,10 +66,10 @@ class TestcontainerInitializerTest {
   fun `can initialize all containers and re-map properties`() {
     val postgresMap =
       mapOf(
-        "postgres.url" to "spring.datasource.url",
-        "postgres.username" to "spring.datsource.username",
-        "postgres.password" to "spring.datasource.password")
-    val keycloakMap = mapOf("keycloak.url" to "keycloak.auth-server-url")
+        TestcontainerConstants.POSTGRES_URL_PROP to "spring.datasource.url",
+        TestcontainerConstants.POSTGRES_USER_PROP to "spring.datsource.username",
+        TestcontainerConstants.POSTGRES_PASSWORD_PROP to "spring.datasource.password")
+    val keycloakMap = mapOf(TestcontainerConstants.KEYCLOAK_URL_PROP to "keycloak.auth-server-url")
     val result =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(
