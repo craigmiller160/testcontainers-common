@@ -2,6 +2,7 @@ package io.craigmiller160.testcontainers.common.core
 
 import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
@@ -16,6 +17,11 @@ class AuthenticationHelperTest {
   }
   @Test
   fun `can create a user in keycloak and then login with that user`() {
-    TODO()
+    val helper = AuthenticationHelper()
+    val userName = "MyUser@gmail.com"
+    val testUser = helper.createUser(userName)
+    assertThat(testUser)
+      .hasFieldOrPropertyWithValue("userName", userName)
+      .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE))
   }
 }
