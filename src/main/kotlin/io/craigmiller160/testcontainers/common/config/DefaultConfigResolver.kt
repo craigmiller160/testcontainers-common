@@ -9,5 +9,5 @@ class DefaultConfigResolver(private val filePath: String = "testcontainers-commo
       .getResourceAsStream(filePath)
       ?.use { stream -> Yaml().load<Map<String, Any>>(stream) }
       ?.let { TestcontainersCommonConfig(it) }
-      ?: throw IllegalStateException("No testcontainers-common.yml file found at root of classpath")
+      ?: throw IllegalStateException("No $filePath file found at root of classpath")
 }
