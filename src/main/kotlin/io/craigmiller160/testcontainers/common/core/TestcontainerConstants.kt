@@ -1,7 +1,7 @@
 package io.craigmiller160.testcontainers.common.core
 
 object TestcontainerConstants {
-  const val KEYCLOAK_IMAGE = "keycloak:20.0.2"
+  const val KEYCLOAK_IMAGE = "quay.io/keycloak/keycloak:20.0.2"
   const val KEYCLOAK_REALM_FILE = "keycloak-realm.json"
   const val KEYCLOAK_ADMIN_USER = "admin"
   const val KEYCLOAK_ADMIN_PASSWORD = "password"
