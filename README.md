@@ -12,14 +12,23 @@ Simply add this extension to any test class:
 
 ## How to Configure
 
-This supports Postgres & Keycloak. Provide the following configuration file at the root of your classpath to enable them:
+This supports Postgres & Keycloak. A file called `testcontainers-common.yml` must exist on the classpath. It should have the following properties
 
 ```yaml
-# testcontainers-common.yml
+# To enable/disable and configure postgres:
 postgres:
   enable: true
+  # The following properties are set by default if not specified here. The keys they are set to can be overridden here, though.
+  propertyMappings:
+    postgres.url: spring.datasource.url
+    postgres.username: spring.datasource.username
+    postgres.password: spring.datasource.password
+# To enable/disable and configure keycloak
 keycloak:
   enable: true
+  # The following properties are set by default if not specified here. The keys they are set to can be overridden here, though.
+  propertyMappings:
+    keycloak.url: keycloak.auth-server-url
 ```
 
 ## How to Reuse
