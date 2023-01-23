@@ -309,7 +309,7 @@
           "attributes": {}
         }
       ],
-      "expense-tracker-api": [
+      "test-client": [
         {
           "id": "ab7d0597-c76e-437a-ba38-96abc53b329c",
           "name": "access",
@@ -475,11 +475,11 @@
     {
       "id": "fdfc02eb-dece-4bdb-a2d0-dfffb79bfa3c",
       "createdTimestamp": 1673386259706,
-      "username": "service-account-expense-tracker-api",
+      "username": "service-account-test-client",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "expense-tracker-api",
+      "serviceAccountClientId": "test-client",
       "disableableCredentialTypes": [],
       "realmRoles": [
         "default-roles-apps-dev"
@@ -505,7 +505,7 @@
           "view-profile",
           "manage-account"
         ],
-        "expense-tracker-api": [
+        "test-client": [
           "access"
         ]
       }
@@ -708,8 +708,8 @@
     },
     {
       "id": "c678d751-88da-4bb6-b90c-bc8410a0fcbf",
-      "clientId": "expense-tracker-api",
-      "name": "expense-tracker-api",
+      "clientId": "test-client",
+      "name": "test-client",
       "description": "",
       "rootUrl": "",
       "adminUrl": "",
