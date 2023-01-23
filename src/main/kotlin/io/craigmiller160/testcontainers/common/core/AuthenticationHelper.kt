@@ -33,14 +33,14 @@ class AuthenticationHelper {
   private val httpClient = HttpClients.createDefault()
   private val objectMapper = jacksonObjectMapper()
 
-  fun login(userName: String, password: String): String {
+  fun login(testUser: TestUser): TestUserWithToken {
     val entity =
       UrlEncodedFormEntity(
         listOf(
           BasicNameValuePair(GRANT_TYPE_KEY, GRANT_TYPE_VALUE),
           BasicNameValuePair(CLIENT_ID_KEY, CLIENT_ID),
-          BasicNameValuePair(USERNAME_KEY, userName),
-          BasicNameValuePair(PASSWORD_KEY, password)))
+          BasicNameValuePair(USERNAME_KEY, testUser.userName),
+          BasicNameValuePair(PASSWORD_KEY, testUser.password)))
 
     val basicAuth =
       "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:$CLIENT_SECRET".toByteArray())}"
@@ -50,17 +50,37 @@ class AuthenticationHelper {
         this.entity = entity
       }
 
-    return httpClient.execute(httpPost).use { response ->
-      val tokenType = jacksonTypeRef<Map<String, Any>>()
-      val tokenResponse = objectMapper.readValue(response.entity.content, tokenType)
-      tokenResponse["access_token"] as String
-    }
+    val token =
+      httpClient.execute(httpPost).use { response ->
+        val tokenType = jacksonTypeRef<Map<String, Any>>()
+        val tokenResponse = objectMapper.readValue(response.entity.content, tokenType)
+        tokenResponse["access_token"] as String
+      }
+    return TestUserWithToken.fromTestUser(testUser, token)
   }
 
   data class TestUser(
     val userId: UUID,
     val userName: String,
+    val password: String,
+    val roles: List<String>
+  )
+
+  data class TestUserWithToken(
+    val userId: UUID,
+    val userName: String,
+    val password: String,
     val roles: List<String>,
     val token: String
-  )
+  ) {
+    companion object {
+      fun fromTestUser(testUser: TestUser, token: String): TestUserWithToken =
+        TestUserWithToken(
+          userId = testUser.userId,
+          userName = testUser.userName,
+          password = testUser.password,
+          roles = testUser.roles,
+          token = token)
+    }
+  }
 }
