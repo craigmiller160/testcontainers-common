@@ -1,6 +1,7 @@
 package io.craigmiller160.testcontainers.common.config
 
 import java.lang.NullPointerException
+import kotlin.test.assertEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -41,6 +42,7 @@ class DefaultConfigResolverTest {
   @Test
   fun `resolves configuration without file present`() {
     val resolver = DefaultConfigResolver("configResolverTest/foobar.yml")
-    assertThrows<NullPointerException> { resolver.resolve() }
+    val ex = assertThrows<NullPointerException> { resolver.resolve() }
+    assertEquals("No configResolverTest/foobar.yml file found at root of classpath", ex.message)
   }
 }
