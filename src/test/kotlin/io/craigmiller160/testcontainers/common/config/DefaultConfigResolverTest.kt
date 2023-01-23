@@ -1,7 +1,9 @@
 package io.craigmiller160.testcontainers.common.config
 
+import java.lang.NullPointerException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class DefaultConfigResolverTest {
   @Test
@@ -39,8 +41,6 @@ class DefaultConfigResolverTest {
   @Test
   fun `resolves configuration without file present`() {
     val resolver = DefaultConfigResolver("configResolverTest/foobar.yml")
-    val config = resolver.resolve()
-    assertThat(config.postgres).isNull()
-    assertThat(config.keycloak).isNull()
+    assertThrows<NullPointerException> { resolver.resolve() }
   }
 }
