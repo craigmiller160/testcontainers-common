@@ -1,5 +1,6 @@
 package io.craigmiller160.testcontainers.common.config
 
+import io.craigmiller160.testcontainers.common.utils.toResult
 import org.yaml.snakeyaml.Yaml
 
 class DefaultConfigResolver(private val filePath: String = "testcontainers-common.yml") :
@@ -7,7 +8,8 @@ class DefaultConfigResolver(private val filePath: String = "testcontainers-commo
   override fun resolve(): TestcontainersCommonConfig =
     javaClass.classLoader
       .getResourceAsStream(filePath)
-      ?.use { stream -> Yaml().load<Map<String, Any>>(stream) }
-      ?.let { TestcontainersCommonConfig(it) }
-      ?: throw IllegalStateException("No $filePath file found at root of classpath")
+      .toResult("No $filePath file found at root of classpath")
+      .mapCatching { Yaml().load<Map<String, Any>>(it) }
+      .mapCatching { yaml -> TestcontainersCommonConfig(yaml ?: mapOf()) }
+      .getOrThrow()
 }
