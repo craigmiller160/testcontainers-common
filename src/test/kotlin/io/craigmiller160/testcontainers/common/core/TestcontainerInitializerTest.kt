@@ -16,6 +16,7 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
+    TODO("Validate the container settings")
   }
 
   @Test
@@ -50,6 +51,20 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize all containers and re-map properties`() {
-    TODO()
+    val postgresMap =
+      mapOf(
+        "postgres.url" to "spring.datasource.url",
+        "postgres.username" to "spring.datsource.username",
+        "postgres.password" to "spring.datasource.password")
+    val keycloakMap = mapOf("keycloak.url" to "keycloak.auth-server-url")
+    val result =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(
+          postgres = ContainerConfig(enable = true, postgresMap),
+          keycloak = ContainerConfig(enable = true, keycloakMap)))
+    assertThat(result)
+      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
+    TODO("Validate the container settings")
   }
 }
