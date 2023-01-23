@@ -6,10 +6,13 @@ import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 
 class TestcontainersExtension : BeforeAllCallback {
-  private val resolver = DefaultConfigResolver()
-
-  override fun beforeAll(context: ExtensionContext) {
-    val config = resolver.resolve()
-    TestcontainerInitializer.initialize(config)
+  companion object {
+    init {
+      val resolver = DefaultConfigResolver()
+      val config = resolver.resolve()
+      TestcontainerInitializer.initialize(config)
+    }
   }
+
+  override fun beforeAll(context: ExtensionContext) {}
 }
