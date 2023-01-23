@@ -2,6 +2,7 @@ package io.craigmiller160.testcontainers.common.core
 
 import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
+import kotlin.test.assertEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,7 +17,11 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-    TODO("Validate the container settings")
+
+    assertEquals(System.getProperty("postgres.url"), result.postgresContainer?.jdbcUrl)
+    assertEquals(System.getProperty("postgres.user"), result.postgresContainer?.username)
+    assertEquals(System.getProperty("postgres.password"), result.postgresContainer?.password)
+    assertEquals(System.getProperty("keycloak.url"), result.keycloakContainer?.authServerUrl)
   }
 
   @Test
@@ -65,6 +70,13 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-    TODO("Validate the container settings")
+
+    assertEquals(System.getProperty("spring.datasource.url"), result.postgresContainer?.jdbcUrl)
+    assertEquals(
+      System.getProperty("spring.datsource.username"), result.postgresContainer?.username)
+    assertEquals(
+      System.getProperty("spring.datasource.password"), result.postgresContainer?.password)
+    assertEquals(
+      System.getProperty("keycloak.auth-server-url"), result.keycloakContainer?.authServerUrl)
   }
 }
