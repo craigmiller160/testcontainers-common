@@ -29,7 +29,18 @@ class DefaultConfigResolverTest {
   }
 
   @Test
-  fun `resolves configuration with no configuration provided`() {
-    TODO()
+  fun `resolves configuration with no configuration in file`() {
+    val resolver = DefaultConfigResolver("configResolverTest/nothing.yml")
+    val config = resolver.resolve()
+    assertThat(config.postgres).isNull()
+    assertThat(config.keycloak).isNull()
+  }
+
+  @Test
+  fun `resolves configuration without file present`() {
+    val resolver = DefaultConfigResolver("configResolverTest/foobar.yml")
+    val config = resolver.resolve()
+    assertThat(config.postgres).isNull()
+    assertThat(config.keycloak).isNull()
   }
 }
