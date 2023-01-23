@@ -26,6 +26,8 @@ class AuthenticationHelper {
     const val ACCESS_ROLE = "access"
     const val ADMIN_REALM = "master"
     const val REALM = "apps-dev"
+
+    const val DEFAULT_PASSWORD = "password"
   }
 
   private val keycloak =
@@ -40,11 +42,7 @@ class AuthenticationHelper {
   private val httpClient = HttpClients.createDefault()
   private val objectMapper = jacksonObjectMapper()
 
-  fun createUser(
-    userName: String,
-    password: String,
-    roles: List<String> = listOf(ACCESS_ROLE)
-  ): TestUser {
+  fun createUser(userName: String, roles: List<String> = listOf(ACCESS_ROLE)): TestUser {
     val realm = keycloak.realm(REALM)
     val kcClientId = realm.clients().findByClientId(CLIENT_ID).first().id
     val client = realm.clients().get(kcClientId)
@@ -68,7 +66,7 @@ class AuthenticationHelper {
       .apply {
         isTemporary = false
         type = CredentialRepresentation.PASSWORD
-        value = password
+        value = DEFAULT_PASSWORD
       }
       .let { users.get(userId).resetPassword(it) }
 
@@ -76,8 +74,7 @@ class AuthenticationHelper {
       .map { role -> client.roles().get(role).toRepresentation() }
       .let { users.get(userId).roles().clientLevel(kcClientId).add(it) }
 
-    return TestUser(
-      userId = UUID.fromString(userId), userName = userName, password = password, roles = roles)
+    return TestUser(userId = UUID.fromString(userId), userName = userName, roles = roles)
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
@@ -87,7 +84,7 @@ class AuthenticationHelper {
           BasicNameValuePair(GRANT_TYPE_KEY, GRANT_TYPE_VALUE),
           BasicNameValuePair(CLIENT_ID_KEY, CLIENT_ID),
           BasicNameValuePair(USERNAME_KEY, testUser.userName),
-          BasicNameValuePair(PASSWORD_KEY, testUser.password)))
+          BasicNameValuePair(PASSWORD_KEY, DEFAULT_PASSWORD)))
 
     val basicAuth =
       "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:$CLIENT_SECRET".toByteArray())}"
@@ -106,17 +103,11 @@ class AuthenticationHelper {
     return TestUserWithToken.fromTestUser(testUser, token)
   }
 
-  data class TestUser(
-    val userId: UUID,
-    val userName: String,
-    val password: String,
-    val roles: List<String>
-  )
+  data class TestUser(val userId: UUID, val userName: String, val roles: List<String>)
 
   data class TestUserWithToken(
     val userId: UUID,
     val userName: String,
-    val password: String,
     val roles: List<String>,
     val token: String
   ) {
@@ -125,7 +116,6 @@ class AuthenticationHelper {
         TestUserWithToken(
           userId = testUser.userId,
           userName = testUser.userName,
-          password = testUser.password,
           roles = testUser.roles,
           token = token)
     }
