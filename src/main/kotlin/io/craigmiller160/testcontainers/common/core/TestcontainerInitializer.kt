@@ -22,7 +22,7 @@ object TestcontainerInitializer {
 
     return ContainerInitializationResult(
       postgresStatus = postgresStatus,
-      keycloak = keycloakStatus,
+      keycloakStatus = keycloakStatus,
       postgresContainer = postgresContainer,
       keycloakContainer = keycloakContainer)
   }

@@ -5,7 +5,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 
 data class ContainerInitializationResult(
   val postgresStatus: ContainerStatus,
-  val keycloak: ContainerStatus,
+  val keycloakStatus: ContainerStatus,
   val postgresContainer: PostgreSQLContainer<*>?,
   val keycloakContainer: KeycloakContainer?
 )

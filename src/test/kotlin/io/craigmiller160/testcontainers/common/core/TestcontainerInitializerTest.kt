@@ -14,8 +14,8 @@ class TestcontainerInitializerTest {
         TestcontainersCommonConfig(
           postgres = ContainerConfig(enable = true), keycloak = ContainerConfig(enable = true)))
     assertThat(result)
-      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
     TODO("Validate the container settings")
   }
 
@@ -25,8 +25,8 @@ class TestcontainerInitializerTest {
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(postgres = ContainerConfig(enable = true), keycloak = null))
     assertThat(result)
-      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
   }
 
   @Test
@@ -35,8 +35,8 @@ class TestcontainerInitializerTest {
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(postgres = null, keycloak = ContainerConfig(enable = true)))
     assertThat(result)
-      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.DISABLED)
-      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
   }
 
   @Test
@@ -45,8 +45,8 @@ class TestcontainerInitializerTest {
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(postgres = null, keycloak = null))
     assertThat(result)
-      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.DISABLED)
-      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
   }
 
   @Test
@@ -63,8 +63,8 @@ class TestcontainerInitializerTest {
           postgres = ContainerConfig(enable = true, postgresMap),
           keycloak = ContainerConfig(enable = true, keycloakMap)))
     assertThat(result)
-      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
     TODO("Validate the container settings")
   }
 }
