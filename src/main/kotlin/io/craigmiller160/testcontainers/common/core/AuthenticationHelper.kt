@@ -1,5 +1,7 @@
 package io.craigmiller160.testcontainers.common.core
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.util.Base64
 import java.util.UUID
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -48,7 +50,11 @@ class AuthenticationHelper {
         this.entity = entity
       }
 
-    httpClient.execute(httpPost).use { response -> response.entity }
+    return httpClient.execute(httpPost).use { response ->
+      val tokenType = jacksonTypeRef<Map<String, Any>>()
+      val tokenResponse = objectMapper.readValue(response.entity.content, tokenType)
+      tokenResponse["access_token"] as String
+    }
   }
 
   data class TestUser(
