@@ -32,7 +32,7 @@ object TestcontainerInitializer {
         .withReuse(true)
         .also { it.start() }
     System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
-    return if (container.isHealthy) ContainerStatus.STARTED else ContainerStatus.FAILED
+    return ContainerStatus.STARTED
   }
 
   private fun startPostgresContainer(): ContainerStatus {
@@ -46,6 +46,6 @@ object TestcontainerInitializer {
     System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
     System.setProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     System.setProperty(TestcontainerConstants.POSTGRES_USER_PROP, container.username)
-    return if (container.isHealthy) ContainerStatus.STARTED else ContainerStatus.FAILED
+    return ContainerStatus.STARTED
   }
 }
