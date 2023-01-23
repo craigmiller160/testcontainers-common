@@ -16,6 +16,11 @@ class DefaultConfigResolverTest {
   }
 
   @Test
+  fun `resolves configuration for all properties with property mappings`() {
+    TODO()
+  }
+
+  @Test
   fun `resolves configuration for postgres only`() {
     val resolver = DefaultConfigResolver("configResolverTest/postgres-only.yml")
     val config = resolver.resolve()
