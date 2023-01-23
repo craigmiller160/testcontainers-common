@@ -19,7 +19,7 @@ class TestcontainerInitializerTest {
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
 
     assertEquals(System.getProperty("postgres.url"), result.postgresContainer?.jdbcUrl)
-    assertEquals(System.getProperty("postgres.user"), result.postgresContainer?.username)
+    assertEquals(System.getProperty("postgres.username"), result.postgresContainer?.username)
     assertEquals(System.getProperty("postgres.password"), result.postgresContainer?.password)
     assertEquals(System.getProperty("keycloak.url"), result.keycloakContainer?.authServerUrl)
   }
