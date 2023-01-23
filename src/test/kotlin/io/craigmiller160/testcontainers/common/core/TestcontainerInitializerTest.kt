@@ -6,13 +6,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TestcontainerInitializerTest {
-  private val config =
-    TestcontainersCommonConfig(
-      postgres = ContainerConfig(enable = true), keycloak = ContainerConfig(enable = true))
 
   @Test
   fun `can initialize all containers`() {
-    val result = TestcontainerInitializer.initialize(config)
+    val result =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(
+          postgres = ContainerConfig(enable = true), keycloak = ContainerConfig(enable = true)))
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
@@ -20,17 +20,32 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize postgres only`() {
-    TODO()
+    val result =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(postgres = ContainerConfig(enable = true), keycloak = null))
+    assertThat(result)
+      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.DISABLED)
   }
 
   @Test
   fun `can initialize keycloak only`() {
-    TODO()
+    val result =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(postgres = null, keycloak = ContainerConfig(enable = true)))
+    assertThat(result)
+      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.STARTED)
   }
 
   @Test
   fun `can initialize nothing`() {
-    TODO()
+    val result =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(postgres = null, keycloak = null))
+    assertThat(result)
+      .hasFieldOrPropertyWithValue("postgres", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("keycloak", ContainerStatus.DISABLED)
   }
 
   @Test
