@@ -68,6 +68,12 @@ object TestcontainerInitializer {
 
   fun getSchemaName(): String = Paths.get(Terminal.execute("pwd")).fileName.toString().trim()
 
+  private fun initializeSchema(container: PostgreSQLContainer<*>, schemaName: String) {
+    container.createConnection("").use { conn ->
+      conn.createStatement().execute("CREATE SCHEMA IF NOT EXISTS $schemaName")
+    }
+  }
+
   private fun startPostgresContainer(
     config: ContainerConfig
   ): Pair<ContainerStatus, PostgreSQLContainer<*>> {
@@ -78,14 +84,15 @@ object TestcontainerInitializer {
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
         .also { it.start() }
+    val schemaName = getSchemaName()
+    initializeSchema(container, schemaName)
     setProperty(
       config.propertyMappings, TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
     setProperty(
       config.propertyMappings, TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     setProperty(
       config.propertyMappings, TestcontainerConstants.POSTGRES_USER_PROP, container.username)
-    setProperty(
-      config.propertyMappings, TestcontainerConstants.POSTGRES_SCHEMA_PROP, getSchemaName())
+    setProperty(config.propertyMappings, TestcontainerConstants.POSTGRES_SCHEMA_PROP, schemaName)
     return ContainerStatus.STARTED to container
   }
 }
