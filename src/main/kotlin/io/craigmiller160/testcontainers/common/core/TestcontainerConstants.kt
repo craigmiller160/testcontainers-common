@@ -6,6 +6,9 @@ object TestcontainerConstants {
   const val KEYCLOAK_ADMIN_USER = "admin"
   const val KEYCLOAK_ADMIN_PASSWORD = "password"
   const val KEYCLOAK_URL_PROP = "keycloak.url"
+  const val KEYCLOAK_REALM_PROP = "keycloak.realm"
+  const val KEYCLOAK_CLIENT_ID_PROP = "keycloak.client.id"
+  const val KEYCLOAK_CLIENT_SECRET_PROP = "keycloak.client.secret"
 
   const val POSTGRES_IMAGE = "postgres:14.5"
   const val POSTGRES_USER = "user"
