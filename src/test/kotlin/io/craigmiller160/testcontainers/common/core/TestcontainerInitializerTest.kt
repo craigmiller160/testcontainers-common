@@ -37,6 +37,8 @@ class TestcontainerInitializerTest {
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
       result.keycloakContainer?.authServerUrl)
     assertEquals(
+      System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers-common")
+    assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_REALM_PROP),
       TestcontainerConstants.KEYCLOAK_REALM)
     assertEquals(
@@ -83,7 +85,8 @@ class TestcontainerInitializerTest {
       mapOf(
         TestcontainerConstants.POSTGRES_URL_PROP to "spring.datasource.url",
         TestcontainerConstants.POSTGRES_USER_PROP to "spring.datsource.username",
-        TestcontainerConstants.POSTGRES_PASSWORD_PROP to "spring.datasource.password")
+        TestcontainerConstants.POSTGRES_PASSWORD_PROP to "spring.datasource.password",
+        TestcontainerConstants.POSTGRES_SCHEMA_PROP to "spring.datasource.schema")
     val keycloakMap =
       mapOf(
         TestcontainerConstants.KEYCLOAK_URL_PROP to "keycloak.auth-server-url",
@@ -111,5 +114,6 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty("keycloak.credentials.secret"),
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
+    assertEquals(System.getProperty("spring.datasource.schema"), "testcontainers-common")
   }
 }

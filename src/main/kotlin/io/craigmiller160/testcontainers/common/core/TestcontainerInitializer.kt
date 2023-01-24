@@ -84,6 +84,8 @@ object TestcontainerInitializer {
       config.propertyMappings, TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     setProperty(
       config.propertyMappings, TestcontainerConstants.POSTGRES_USER_PROP, container.username)
+    setProperty(
+      config.propertyMappings, TestcontainerConstants.POSTGRES_SCHEMA_PROP, getSchemaName())
     return ContainerStatus.STARTED to container
   }
 }
