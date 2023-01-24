@@ -40,6 +40,18 @@ object TestcontainerInitializer {
         .also { it.start() }
     setProperty(
       config.propertyMappings, TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
+    setProperty(
+      config.propertyMappings,
+      TestcontainerConstants.KEYCLOAK_REALM_PROP,
+      TestcontainerConstants.KEYCLOAK_REALM)
+    setProperty(
+      config.propertyMappings,
+      TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP,
+      TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+    setProperty(
+      config.propertyMappings,
+      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP,
+      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
     return ContainerStatus.STARTED to container
   }
 
