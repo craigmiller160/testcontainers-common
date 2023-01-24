@@ -11,7 +11,7 @@ class TestcontainerInitializerTest {
   @Test
   fun `gets schema name based on working directory`() {
     val schemaName = TestcontainerInitializer.getSchemaName()
-    assertEquals("testcontainers-common", schemaName)
+    assertEquals("testcontainers_common", schemaName)
   }
 
   @Test

@@ -66,7 +66,8 @@ object TestcontainerInitializer {
       ?: System.setProperty(defaultKey, value)
   }
 
-  fun getSchemaName(): String = Paths.get(Terminal.execute("pwd")).fileName.toString().trim()
+  fun getSchemaName(): String =
+    Paths.get(Terminal.execute("pwd")).fileName.toString().trim().replace("-", "_")
 
   private fun initializeSchema(container: PostgreSQLContainer<*>, schemaName: String) {
     container.createConnection("").use { conn ->
