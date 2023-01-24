@@ -30,6 +30,15 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
       result.keycloakContainer?.authServerUrl)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_REALM_PROP),
+      TestcontainerConstants.KEYCLOAK_REALM)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP),
+      TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP),
+      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
   }
 
   @Test
