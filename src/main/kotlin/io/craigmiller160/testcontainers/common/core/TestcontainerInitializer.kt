@@ -66,11 +66,7 @@ object TestcontainerInitializer {
       ?: System.setProperty(defaultKey, value)
   }
 
-  fun getDatabaseName(): String {
-    val path = Paths.get(Terminal.execute("pwd")).fileName
-    println("PATH: $path") // TODO delete this
-    return "test"
-  }
+  fun getSchemaName(): String = Paths.get(Terminal.execute("pwd")).fileName.toString().trim()
 
   private fun startPostgresContainer(
     config: ContainerConfig
@@ -79,7 +75,7 @@ object TestcontainerInitializer {
       PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
         .withUsername(TestcontainerConstants.POSTGRES_USER)
         .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
-        .withDatabaseName(getDatabaseName())
+        .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
         .also { it.start() }
     setProperty(

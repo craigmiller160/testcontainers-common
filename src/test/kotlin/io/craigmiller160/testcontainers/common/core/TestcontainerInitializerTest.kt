@@ -9,8 +9,9 @@ import org.junit.jupiter.api.Test
 class TestcontainerInitializerTest {
 
   @Test
-  fun `gets database name based on working directory`() {
-    TODO()
+  fun `gets schema name based on working directory`() {
+    val schemaName = TestcontainerInitializer.getSchemaName()
+    assertEquals("testcontainers-common", schemaName)
   }
 
   @Test
