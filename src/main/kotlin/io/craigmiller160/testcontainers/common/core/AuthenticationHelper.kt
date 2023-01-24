@@ -17,16 +17,13 @@ import org.keycloak.representations.idm.UserRepresentation
 class AuthenticationHelper {
   companion object {
     const val ADMIN_CLIENT_ID = "admin-cli"
-    const val CLIENT_ID = "test-client"
-    const val CLIENT_SECRET = "CQ60kzXcV7F31JfW8dX2MINjVIKOIxpJ"
+    const val CLIENT_ID_KEY = "client_id"
     const val GRANT_TYPE_KEY = "grant_type"
     const val GRANT_TYPE_VALUE = "password"
-    const val CLIENT_ID_KEY = "client_id"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
     const val ACCESS_ROLE = "access"
     const val ADMIN_REALM = "master"
-    const val REALM = "apps-dev"
 
     const val DEFAULT_PASSWORD = "password"
   }
@@ -44,8 +41,9 @@ class AuthenticationHelper {
   private val objectMapper = jacksonObjectMapper()
 
   fun createUser(userName: String, roles: List<String> = listOf(ACCESS_ROLE)): TestUser {
-    val realm = keycloak.realm(REALM)
-    val kcClientId = realm.clients().findByClientId(CLIENT_ID).first().id
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val kcClientId =
+      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
     val client = realm.clients().get(kcClientId)
     val accessRole = client.roles().get(ACCESS_ROLE).toRepresentation()
     val users = realm.users()
@@ -79,16 +77,18 @@ class AuthenticationHelper {
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
+    val clientId = TestcontainerConstants.KEYCLOAK_CLIENT_ID
+    val clientSecret = TestcontainerConstants.KEYCLOAK_CLIENT_SECRET
     val entity =
       UrlEncodedFormEntity(
         listOf(
           BasicNameValuePair(GRANT_TYPE_KEY, GRANT_TYPE_VALUE),
-          BasicNameValuePair(CLIENT_ID_KEY, CLIENT_ID),
+          BasicNameValuePair(CLIENT_ID_KEY, clientId),
           BasicNameValuePair(USERNAME_KEY, testUser.userName),
           BasicNameValuePair(PASSWORD_KEY, DEFAULT_PASSWORD)))
 
     val basicAuth =
-      "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:$CLIENT_SECRET".toByteArray())}"
+      "Basic ${Base64.getEncoder().encodeToString("$clientId:$clientSecret".toByteArray())}"
     val httpPost =
       HttpPost().apply {
         uri =
