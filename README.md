@@ -32,6 +32,9 @@ postgres.url
 postgres.user
 postgres.password
 keycloak.url
+keycloak.realm
+keycloak.client.id
+keycloak.client.secret
 ```
 
 ## How to Reuse
