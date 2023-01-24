@@ -3,6 +3,8 @@ package io.craigmiller160.testcontainers.common.core
 import dasniko.testcontainers.keycloak.KeycloakContainer
 import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
+import io.craigmiller160.testcontainers.common.utils.Terminal
+import java.nio.file.Paths
 import org.testcontainers.containers.PostgreSQLContainer
 
 object TestcontainerInitializer {
@@ -64,6 +66,12 @@ object TestcontainerInitializer {
       ?: System.setProperty(defaultKey, value)
   }
 
+  fun getDatabaseName(): String {
+    val path = Paths.get(Terminal.execute("pwd")).fileName
+    println("PATH: $path") // TODO delete this
+    return "test"
+  }
+
   private fun startPostgresContainer(
     config: ContainerConfig
   ): Pair<ContainerStatus, PostgreSQLContainer<*>> {
@@ -71,7 +79,7 @@ object TestcontainerInitializer {
       PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
         .withUsername(TestcontainerConstants.POSTGRES_USER)
         .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
-        .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
+        .withDatabaseName(getDatabaseName())
         .withReuse(true)
         .also { it.start() }
     setProperty(

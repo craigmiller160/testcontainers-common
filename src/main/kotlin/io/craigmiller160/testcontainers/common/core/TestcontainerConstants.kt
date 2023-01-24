@@ -16,7 +16,6 @@ object TestcontainerConstants {
   const val POSTGRES_IMAGE = "postgres:14.5"
   const val POSTGRES_USER = "user"
   const val POSTGRES_PASSWORD = "password"
-  const val POSTGRES_DB_NAME = "test"
   const val POSTGRES_URL_PROP = "postgres.url"
   const val POSTGRES_USER_PROP = "postgres.username"
   const val POSTGRES_PASSWORD_PROP = "postgres.password"

@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Test
 class TestcontainerInitializerTest {
 
   @Test
+  fun `gets database name based on working directory`() {
+    TODO()
+  }
+
+  @Test
   fun `can initialize all containers`() {
     val result =
       TestcontainerInitializer.initialize(
