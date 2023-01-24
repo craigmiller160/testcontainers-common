@@ -37,7 +37,7 @@ class TestcontainerInitializerTest {
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
       result.keycloakContainer?.authServerUrl)
     assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers-common")
+      System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers_common")
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_REALM_PROP),
       TestcontainerConstants.KEYCLOAK_REALM)
@@ -114,6 +114,6 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty("keycloak.credentials.secret"),
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
-    assertEquals(System.getProperty("spring.datasource.schema"), "testcontainers-common")
+    assertEquals(System.getProperty("spring.datasource.schema"), "testcontainers_common")
   }
 }
