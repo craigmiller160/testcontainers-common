@@ -30,9 +30,7 @@ object TestcontainerInitializer {
       keycloakContainer = keycloakContainer)
   }
 
-  private fun startKeycloakContainer(
-    config: ContainerConfig
-  ): Pair<ContainerStatus, KeycloakContainer> {
+  private fun startKeycloakContainer(): Pair<ContainerStatus, KeycloakContainer> {
     val container =
       KeycloakContainer(TestcontainerConstants.KEYCLOAK_IMAGE)
         .withAdminUsername(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
@@ -40,30 +38,21 @@ object TestcontainerInitializer {
         .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
         .withReuse(true)
         .also { it.start() }
-    setProperty(
-      config.propertyMappings, TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
-    setProperty(
-      config.propertyMappings,
-      TestcontainerConstants.KEYCLOAK_REALM_PROP,
-      TestcontainerConstants.KEYCLOAK_REALM)
-    setProperty(
-      config.propertyMappings,
-      TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP,
-      TestcontainerConstants.KEYCLOAK_CLIENT_ID)
-    setProperty(
-      config.propertyMappings,
+    System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
+    System.setProperty(
+      TestcontainerConstants.KEYCLOAK_REALM_PROP, TestcontainerConstants.KEYCLOAK_REALM)
+    System.setProperty(
+      TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP, TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+    System.setProperty(
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP,
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
+    // TODO these two need tests
+    System.setProperty(
+      TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP, TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+    System.setProperty(
+      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP,
+      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
     return ContainerStatus.STARTED to container
-  }
-
-  private fun setProperty(
-    propertyMappings: Map<String, String>,
-    defaultKey: String,
-    value: String
-  ) {
-    propertyMappings[defaultKey]?.let { System.setProperty(it, value) }
-      ?: System.setProperty(defaultKey, value)
   }
 
   fun getSchemaName(): String =

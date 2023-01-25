@@ -1,7 +1,6 @@
 package io.craigmiller160.testcontainers.common.core
 
 object TestcontainerConstants {
-  // TODO add keycloak user & password as properties
   const val KEYCLOAK_IMAGE = "quay.io/keycloak/keycloak:20.0.2"
   const val KEYCLOAK_REALM_FILE = "keycloak-realm.json"
   const val KEYCLOAK_ADMIN_USER = "admin"
@@ -13,6 +12,8 @@ object TestcontainerConstants {
   const val KEYCLOAK_REALM = "apps-dev"
   const val KEYCLOAK_CLIENT_ID = "test-client"
   const val KEYCLOAK_CLIENT_SECRET = "CQ60kzXcV7F31JfW8dX2MINjVIKOIxpJ"
+  const val KEYCLOAK_ADMIN_USER_PROP = "testcontainers.common.keycloak.admin.user"
+  const val KEYCLOAK_ADMIN_PASSWORD_PROP = "testcontainers.common.keycloak.admin.password"
 
   const val POSTGRES_IMAGE = "postgres:14.5"
   const val POSTGRES_USER = "user"
