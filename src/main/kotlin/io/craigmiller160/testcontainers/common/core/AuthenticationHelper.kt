@@ -16,15 +16,15 @@ import org.keycloak.representations.idm.UserRepresentation
 
 class AuthenticationHelper {
   companion object {
-    const val ADMIN_CLIENT_ID = "admin-cli"
-    const val CLIENT_ID_KEY = "client_id"
-    const val GRANT_TYPE_KEY = "grant_type"
-    const val GRANT_TYPE_VALUE = "password"
-    const val USERNAME_KEY = "username"
-    const val PASSWORD_KEY = "password"
-    const val ACCESS_ROLE = "access"
-    const val ADMIN_REALM = "master"
+    private const val ADMIN_CLIENT_ID = "admin-cli"
+    private const val CLIENT_ID_KEY = "client_id"
+    private const val GRANT_TYPE_KEY = "grant_type"
+    private const val GRANT_TYPE_VALUE = "password"
+    private const val USERNAME_KEY = "username"
+    private const val PASSWORD_KEY = "password"
+    private const val ADMIN_REALM = "master"
 
+    const val ACCESS_ROLE = "access"
     const val DEFAULT_PASSWORD = "password"
   }
 
