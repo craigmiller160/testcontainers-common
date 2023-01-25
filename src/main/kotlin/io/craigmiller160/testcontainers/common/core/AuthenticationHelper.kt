@@ -40,6 +40,7 @@ class AuthenticationHelper {
   private val httpClient = HttpClients.createDefault()
   private val objectMapper = jacksonObjectMapper()
 
+  @JvmOverloads
   fun createUser(userName: String, roles: List<String> = listOf(ACCESS_ROLE)): TestUser {
     val realUserName = "${UUID.randomUUID()}_$userName"
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
