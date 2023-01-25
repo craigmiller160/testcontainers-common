@@ -45,7 +45,6 @@ object TestcontainerInitializer {
     System.setProperty(
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP,
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
-    // TODO these two need tests
     System.setProperty(
       TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP, TestcontainerConstants.KEYCLOAK_ADMIN_USER)
     System.setProperty(
