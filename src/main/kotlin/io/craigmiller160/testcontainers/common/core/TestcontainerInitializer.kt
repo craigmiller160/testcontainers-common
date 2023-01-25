@@ -1,7 +1,6 @@
 package io.craigmiller160.testcontainers.common.core
 
 import dasniko.testcontainers.keycloak.KeycloakContainer
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import io.craigmiller160.testcontainers.common.utils.Terminal
 import java.nio.file.Paths
@@ -11,14 +10,14 @@ object TestcontainerInitializer {
   fun initialize(config: TestcontainersCommonConfig): ContainerInitializationResult {
     val (postgresStatus, postgresContainer) =
       if (config.postgres?.enable == true) {
-        startPostgresContainer(config.postgres)
+        startPostgresContainer()
       } else {
         ContainerStatus.DISABLED to null
       }
 
     val (keycloakStatus, keycloakContainer) =
       if (config.keycloak?.enable == true) {
-        startKeycloakContainer(config.keycloak)
+        startKeycloakContainer()
       } else {
         ContainerStatus.DISABLED to null
       }
@@ -64,9 +63,7 @@ object TestcontainerInitializer {
     }
   }
 
-  private fun startPostgresContainer(
-    config: ContainerConfig
-  ): Pair<ContainerStatus, PostgreSQLContainer<*>> {
+  private fun startPostgresContainer(): Pair<ContainerStatus, PostgreSQLContainer<*>> {
     val container =
       PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
         .withUsername(TestcontainerConstants.POSTGRES_USER)
@@ -76,13 +73,10 @@ object TestcontainerInitializer {
         .also { it.start() }
     val schemaName = getSchemaName()
     initializeSchema(container, schemaName)
-    setProperty(
-      config.propertyMappings, TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
-    setProperty(
-      config.propertyMappings, TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
-    setProperty(
-      config.propertyMappings, TestcontainerConstants.POSTGRES_USER_PROP, container.username)
-    setProperty(config.propertyMappings, TestcontainerConstants.POSTGRES_SCHEMA_PROP, schemaName)
+    System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
+    System.setProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
+    System.setProperty(TestcontainerConstants.POSTGRES_USER_PROP, container.username)
+    System.setProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP, schemaName)
     return ContainerStatus.STARTED to container
   }
 }
