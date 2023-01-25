@@ -1,6 +1,8 @@
 package io.craigmiller160.testcontainers.common.core
 
 object TestcontainerConstants {
+  // TODO add prefix to properties
+  // TODO add keycloak user & password as properties
   const val KEYCLOAK_IMAGE = "quay.io/keycloak/keycloak:20.0.2"
   const val KEYCLOAK_REALM_FILE = "keycloak-realm.json"
   const val KEYCLOAK_ADMIN_USER = "admin"
