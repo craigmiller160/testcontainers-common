@@ -20,7 +20,7 @@ object TestcontainerConstants {
   const val POSTGRES_PASSWORD = "password"
   const val POSTGRES_DB_NAME = "test"
   const val POSTGRES_URL_PROP = "testcontainers.common.postgres.url"
-  const val POSTGRES_USER_PROP = "testcontainers.common.postgres.username"
+  const val POSTGRES_USER_PROP = "testcontainers.common.postgres.user"
   const val POSTGRES_PASSWORD_PROP = "testcontainers.common.postgres.password"
   const val POSTGRES_SCHEMA_PROP = "testcontainers.common.postgres.schema"
 }
