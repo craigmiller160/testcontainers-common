@@ -41,6 +41,7 @@ class AuthenticationHelper {
   private val objectMapper = jacksonObjectMapper()
 
   fun createUser(userName: String, roles: List<String> = listOf(ACCESS_ROLE)): TestUser {
+    val realUserName = "${UUID.randomUUID()}_$userName"
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val kcClientId =
       realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
@@ -51,12 +52,12 @@ class AuthenticationHelper {
     val userId =
       UserRepresentation()
         .apply {
-          username = userName
+          username = realUserName
           isEmailVerified = true
           isEnabled = true
-          firstName = "First $userName"
-          lastName = "Last $userName"
-          email = userName
+          firstName = "First $realUserName"
+          lastName = "Last $realUserName"
+          email = realUserName
         }
         .let { users.create(it) }
         .let { CreatedResponseUtil.getCreatedId(it) }
@@ -73,7 +74,7 @@ class AuthenticationHelper {
       .map { role -> client.roles().get(role).toRepresentation() }
       .let { users.get(userId).roles().clientLevel(kcClientId).add(it) }
 
-    return TestUser(userId = UUID.fromString(userId), userName = userName, roles = roles)
+    return TestUser(userId = UUID.fromString(userId), userName = realUserName, roles = roles)
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
