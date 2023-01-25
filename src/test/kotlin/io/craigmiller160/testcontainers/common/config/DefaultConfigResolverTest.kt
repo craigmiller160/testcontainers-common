@@ -16,22 +16,6 @@ class DefaultConfigResolverTest {
   }
 
   @Test
-  fun `resolves configuration for all properties with property mappings`() {
-    val resolver = DefaultConfigResolver("configResolverTest/all-props-and-mappings.yml")
-    val config = resolver.resolve()
-    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.postgres?.propertyMappings)
-      .isNotNull
-      .containsEntry("postgres.url", "spring.datasource.url")
-      .containsEntry("postgres.username", "spring.datasource.username")
-      .containsEntry("postgres.password", "spring.datasource.password")
-    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.keycloak?.propertyMappings)
-      .isNotNull
-      .containsEntry("keycloak.url", "keycloak.auth-server-url")
-  }
-
-  @Test
   fun `resolves configuration for postgres only`() {
     val resolver = DefaultConfigResolver("configResolverTest/postgres-only.yml")
     val config = resolver.resolve()

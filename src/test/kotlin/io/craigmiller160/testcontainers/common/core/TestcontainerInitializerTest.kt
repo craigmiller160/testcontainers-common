@@ -47,6 +47,12 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP),
       TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP),
+      TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+    assertEquals(
+      System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP),
+      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
   }
 
   @Test
@@ -77,43 +83,5 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
-  }
-
-  @Test
-  fun `can initialize all containers and re-map properties`() {
-    val postgresMap =
-      mapOf(
-        TestcontainerConstants.POSTGRES_URL_PROP to "spring.datasource.url",
-        TestcontainerConstants.POSTGRES_USER_PROP to "spring.datsource.username",
-        TestcontainerConstants.POSTGRES_PASSWORD_PROP to "spring.datasource.password",
-        TestcontainerConstants.POSTGRES_SCHEMA_PROP to "spring.datasource.schema")
-    val keycloakMap =
-      mapOf(
-        TestcontainerConstants.KEYCLOAK_URL_PROP to "keycloak.auth-server-url",
-        TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP to "keycloak.resource",
-        TestcontainerConstants.KEYCLOAK_REALM_PROP to "keycloak.realm",
-        TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP to "keycloak.credentials.secret")
-    val result =
-      TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(
-          postgres = ContainerConfig(enable = true, postgresMap),
-          keycloak = ContainerConfig(enable = true, keycloakMap)))
-    assertThat(result)
-      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-
-    assertEquals(System.getProperty("spring.datasource.url"), result.postgresContainer?.jdbcUrl)
-    assertEquals(
-      System.getProperty("spring.datsource.username"), result.postgresContainer?.username)
-    assertEquals(
-      System.getProperty("spring.datasource.password"), result.postgresContainer?.password)
-    assertEquals(
-      System.getProperty("keycloak.auth-server-url"), result.keycloakContainer?.authServerUrl)
-    assertEquals(System.getProperty("keycloak.realm"), TestcontainerConstants.KEYCLOAK_REALM)
-    assertEquals(System.getProperty("keycloak.resource"), TestcontainerConstants.KEYCLOAK_CLIENT_ID)
-    assertEquals(
-      System.getProperty("keycloak.credentials.secret"),
-      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
-    assertEquals(System.getProperty("spring.datasource.schema"), "testcontainers_common")
   }
 }

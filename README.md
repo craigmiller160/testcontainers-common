@@ -17,25 +17,33 @@ This supports Postgres & Keycloak. A file called `testcontainers-common.yml` mus
 ```yaml
 postgres:
   enable: true
-  propertyMappings:
-    # Optional re-mapping of properties set once the container starts
 keycloak:
   enable: true
-  propertyMappings:
-    # Optional re-mapping of properties set once the container starts
 ```
 
-For the property mappings, critical properties related to the containers are set as system properties. They are set with default keys. To re-map them to custom keys, add the mappings in the `propertyMappings` section of that container. The default keys are:
+## System Properties Set
 
-```
-postgres.url
-postgres.user
-postgres.password
-keycloak.url
-keycloak.realm
-keycloak.client.id
-keycloak.client.secret
-```
+To support connecting to the containers, the following system properties are set after container startup.
+
+### Postgres Properties
+
+| Property                                | Description                                                                              |
+|-----------------------------------------|------------------------------------------------------------------------------------------|
+| testcontainers.common.postgres.url      | The full JDBC URL for Postgres                                                           |
+| testcontainers.common.postgres.user     | The username for Postgres                                                                |  
+| testcontainers.common.postgres.password | The password for Postgres                                                                |
+| testcontainers.common.postgres.schema   | The schema name for the tests for this application (better supports reuse of containers) |
+
+### Keycloak Properties
+
+| Property                                      | Description                               |
+|-----------------------------------------------|-------------------------------------------|
+| testcontainers.common.keycloak.url            | The full URL for the Keycloak auth server |
+| testcontainers.common.keycloak.admin.user     | The username for the Keycloak admin user  |
+| testcontainers.common.keycloak.admin.password | The password for the Keycloak admin user  |
+| testcontainers.common.keycloak.realm          | The realm setup in Keycloak               |
+| testcontainers.common.keycloak.client.id      | The test Client ID in Keycloak            |
+| testcontainers.common.keycloak.client.secret  | The test Client Secret in Keycloak        |
 
 ## How to Reuse
 
