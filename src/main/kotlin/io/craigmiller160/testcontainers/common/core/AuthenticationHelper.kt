@@ -12,6 +12,7 @@ import org.apache.http.message.BasicNameValuePair
 import org.keycloak.admin.client.CreatedResponseUtil
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.idm.CredentialRepresentation
+import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 
 class AuthenticationHelper {
@@ -76,6 +77,17 @@ class AuthenticationHelper {
       .let { users.get(userId).roles().clientLevel(kcClientId).add(it) }
 
     return TestUser(userId = UUID.fromString(userId), userName = realUserName, roles = roles)
+  }
+
+  fun createRole(roleName: String) {
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val kcClientId =
+      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+    val client = realm.clients().get(kcClientId)
+
+    val role = RoleRepresentation().apply { name = roleName }
+
+    client.roles().create(role)
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
