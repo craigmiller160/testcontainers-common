@@ -87,7 +87,7 @@ class AuthenticationHelper {
     val client = realm.clients().get(kcClientId)
 
     val roleExists =
-      runCatching { client.roles().get(roleName) }
+      runCatching { client.roles().get(roleName).toRepresentation() }
         .map { true }
         .recoverCatching { ex ->
           if (ex is NotFoundException) {
