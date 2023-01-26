@@ -88,10 +88,10 @@ class AuthenticationHelper {
 
     val roleExists =
       runCatching { client.roles().get(roleName) }
-        .map { false }
+        .map { true }
         .recoverCatching { ex ->
           if (ex is NotFoundException) {
-            true
+            false
           } else {
             throw ex
           }
