@@ -89,6 +89,17 @@ class AuthenticationHelperTest {
 
   @Test
   fun `will skip creating a new role in keycloak if the role already exists`() {
-    TODO()
+    val helper = AuthenticationHelper()
+    val roleName = "MyRole_${UUID.randomUUID()}"
+
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val clientId =
+      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+
+    realm.clients().get(clientId).roles().create(RoleRepresentation().apply { name = roleName })
+
+    helper.createRole(roleName)
+
+    assertDoesNotThrow { realm.clients().get(clientId).roles().get(roleName) }
   }
 }
