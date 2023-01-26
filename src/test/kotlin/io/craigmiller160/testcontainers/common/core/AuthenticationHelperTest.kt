@@ -40,8 +40,11 @@ class AuthenticationHelperTest {
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
-    val users = realm.users().searchByUsername(userName, true)
-    assertThat(users).hasSize(1).first().hasFieldOrPropertyWithValue("username", userName)
+    val users = realm.users().searchByUsername(testUser.userName, true)
+    assertThat(users)
+      .hasSize(1)
+      .first()
+      .hasFieldOrPropertyWithValue("username", testUser.userName.lowercase())
 
     val token = helper.login(testUser)
     assertNotNull(token)
