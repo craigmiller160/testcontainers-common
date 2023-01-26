@@ -67,14 +67,10 @@ class AuthenticationHelperTest {
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
     val roles =
-      keycloak
-        .realm(AuthenticationHelper.ADMIN_REALM)
-        .users()
-        .get(testUser.userId.toString())
-        .roles()
-        .clientLevel(kcClientId)
-        .listAll()
-    println(roles) // TODO delete this
+      realm.users().get(testUser.userId.toString()).roles().clientLevel(kcClientId).listAll().map {
+        it.name
+      }
+    assertThat(roles).contains(AuthenticationHelper.ACCESS_ROLE, roleName)
   }
 
   @Test
