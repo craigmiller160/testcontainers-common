@@ -72,8 +72,8 @@ class AuthenticationHelperTest {
         .users()
         .get(testUser.userId.toString())
         .roles()
-    //        .clientLevel(TestcontainerConstants.KEYCLOAK_CLIENT_ID)
-    //        .listAll()
+        .clientLevel(kcClientId)
+        .listAll()
     println(roles) // TODO delete this
   }
 
