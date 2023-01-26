@@ -75,7 +75,10 @@ class AuthenticationHelperTest {
 
   @Test
   fun `can create a new role in keycloak`() {
-    TODO()
+    val helper = AuthenticationHelper()
+    val roleName = "MyRole_${UUID.randomUUID()}"
+    helper.createRole(roleName)
+    helper.createRole(roleName)
   }
 
   @Test

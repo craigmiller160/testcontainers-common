@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.URI
 import java.util.Base64
 import java.util.UUID
+import javax.ws.rs.NotFoundException
 import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.HttpClients
@@ -85,9 +86,21 @@ class AuthenticationHelper {
       realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
     val client = realm.clients().get(kcClientId)
 
-    val role = RoleRepresentation().apply { name = roleName }
+    val roleExists =
+      runCatching { client.roles().get(roleName) }
+        .map { false }
+        .recoverCatching { ex ->
+          if (ex is NotFoundException) {
+            true
+          } else {
+            throw ex
+          }
+        }
+        .getOrThrow()
 
-    client.roles().create(role)
+    if (!roleExists) {
+      client.roles().create(RoleRepresentation().apply { name = roleName })
+    }
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
