@@ -39,6 +39,10 @@ class AuthenticationHelperTest {
       .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE))
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val users = realm.users().searchByUsername(userName, true)
+    assertThat(users).hasSize(1).first().hasFieldOrPropertyWithValue("username", userName)
+
     val token = helper.login(testUser)
     assertNotNull(token)
   }
@@ -49,14 +53,14 @@ class AuthenticationHelperTest {
     val userName = "MyUser@gmail.com"
     val roleName = "OtherRole_${UUID.randomUUID()}"
 
-    val realm = keycloak.realm(AuthenticationHelper.ADMIN_REALM)
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val kcClientId =
       realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
     realm.clients().get(kcClientId).roles().create(RoleRepresentation().apply { name = roleName })
 
     val testUser = helper.createUser(userName, listOf(AuthenticationHelper.ACCESS_ROLE, roleName))
     assertThat(testUser)
-      .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE))
+      .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE, roleName))
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
     val roles =
@@ -65,8 +69,8 @@ class AuthenticationHelperTest {
         .users()
         .get(testUser.userId.toString())
         .roles()
-        .clientLevel(kcClientId)
-        .listAll()
+    //        .clientLevel(TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+    //        .listAll()
     println(roles) // TODO delete this
   }
 
