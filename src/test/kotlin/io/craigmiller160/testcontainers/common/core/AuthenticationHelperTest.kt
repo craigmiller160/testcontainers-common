@@ -7,6 +7,7 @@ import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.idm.RoleRepresentation
 
@@ -78,7 +79,12 @@ class AuthenticationHelperTest {
     val helper = AuthenticationHelper()
     val roleName = "MyRole_${UUID.randomUUID()}"
     helper.createRole(roleName)
-    helper.createRole(roleName)
+
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val clientId =
+      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+
+    assertDoesNotThrow { realm.clients().get(clientId).roles().get(roleName) }
   }
 
   @Test
