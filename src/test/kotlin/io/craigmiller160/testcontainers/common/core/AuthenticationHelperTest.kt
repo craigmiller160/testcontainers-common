@@ -28,4 +28,14 @@ class AuthenticationHelperTest {
     val token = helper.login(testUser)
     assertNotNull(token)
   }
+
+  @Test
+  fun `can create a new role in keycloak`() {
+    TODO()
+  }
+
+  @Test
+  fun `will skip creating a new role in keycloak if the role already exists`() {
+    TODO()
+  }
 }
