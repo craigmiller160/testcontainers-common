@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.net.URI
 import java.util.Base64
 import java.util.UUID
+import javax.ws.rs.NotFoundException
 import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.HttpClients
@@ -12,17 +13,18 @@ import org.apache.http.message.BasicNameValuePair
 import org.keycloak.admin.client.CreatedResponseUtil
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.idm.CredentialRepresentation
+import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 
 class AuthenticationHelper {
   companion object {
-    private const val ADMIN_CLIENT_ID = "admin-cli"
-    private const val CLIENT_ID_KEY = "client_id"
-    private const val GRANT_TYPE_KEY = "grant_type"
-    private const val GRANT_TYPE_VALUE = "password"
-    private const val USERNAME_KEY = "username"
-    private const val PASSWORD_KEY = "password"
-    private const val ADMIN_REALM = "master"
+    internal const val ADMIN_CLIENT_ID = "admin-cli"
+    internal const val CLIENT_ID_KEY = "client_id"
+    internal const val GRANT_TYPE_KEY = "grant_type"
+    internal const val GRANT_TYPE_VALUE = "password"
+    internal const val USERNAME_KEY = "username"
+    internal const val PASSWORD_KEY = "password"
+    internal const val ADMIN_REALM = "master"
 
     const val ACCESS_ROLE = "access"
     const val DEFAULT_PASSWORD = "password"
@@ -76,6 +78,29 @@ class AuthenticationHelper {
       .let { users.get(userId).roles().clientLevel(kcClientId).add(it) }
 
     return TestUser(userId = UUID.fromString(userId), userName = realUserName, roles = roles)
+  }
+
+  fun createRole(roleName: String) {
+    val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
+    val kcClientId =
+      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+    val client = realm.clients().get(kcClientId)
+
+    val roleExists =
+      runCatching { client.roles().get(roleName) }
+        .map { true }
+        .recoverCatching { ex ->
+          if (ex is NotFoundException) {
+            false
+          } else {
+            throw ex
+          }
+        }
+        .getOrThrow()
+
+    if (!roleExists) {
+      client.roles().create(RoleRepresentation().apply { name = roleName })
+    }
   }
 
   fun login(testUser: TestUser): TestUserWithToken {
