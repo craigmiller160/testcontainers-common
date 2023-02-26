@@ -40,7 +40,7 @@ object TestcontainerInitializer {
         .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
         .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
         .withReuse(true)
-        .withExposedPorts(8081)
+        .withExposedPorts(8080)
         .withCreateContainerCmdModifier { cmd ->
           cmd.withHostConfig(
             HostConfig()
