@@ -80,9 +80,8 @@ object TestcontainerInitializer {
             HostConfig()
               .withPortBindings(
                 PortBinding(
-                  Ports.Binding.bindPort(5432),
-                  ExposedPort(5433) // TODO make this configuration driven
-                  )))
+                  Ports.Binding.bindPort(5433), // TODO make this configuration driven
+                  ExposedPort(5432))))
         }
         .also { it.start() }
     val schemaName = getSchemaName()
