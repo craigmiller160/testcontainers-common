@@ -1,5 +1,9 @@
 package io.craigmiller160.testcontainers.common.core
 
+import com.github.dockerjava.api.model.ExposedPort
+import com.github.dockerjava.api.model.HostConfig
+import com.github.dockerjava.api.model.PortBinding
+import com.github.dockerjava.api.model.Ports
 import dasniko.testcontainers.keycloak.KeycloakContainer
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import io.craigmiller160.testcontainers.common.utils.Terminal
@@ -69,6 +73,17 @@ object TestcontainerInitializer {
         .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
+        .withExposedPorts(5433) // TODO make this configuration driven
+        // TODO if this works, add it to keycloak
+        .withCreateContainerCmdModifier { cmd ->
+          cmd.withHostConfig(
+            HostConfig()
+              .withPortBindings(
+                PortBinding(
+                  Ports.Binding.bindPort(5432),
+                  ExposedPort(5433) // TODO make this configuration driven
+                  )))
+        }
         .also { it.start() }
     val schemaName = getSchemaName()
     initializeSchema(container, schemaName)
