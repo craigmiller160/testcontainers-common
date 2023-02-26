@@ -21,6 +21,15 @@ keycloak:
   enable: true
 ```
 
+## Container Ports
+
+The containers created by this library are bound to the following local ports.
+
+| Container | Port |
+|-----------|------|
+| Postgres  | 5433 |
+| Keycloak  | 8081 |
+
 ## System Properties Set
 
 To support connecting to the containers, the following system properties are set after container startup.

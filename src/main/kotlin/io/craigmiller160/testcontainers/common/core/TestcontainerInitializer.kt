@@ -74,14 +74,10 @@ object TestcontainerInitializer {
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
         .withExposedPorts(5432)
-        // TODO if this works, add it to keycloak
         .withCreateContainerCmdModifier { cmd ->
           cmd.withHostConfig(
             HostConfig()
-              .withPortBindings(
-                PortBinding(
-                  Ports.Binding.bindPort(5433), // TODO make this configuration driven
-                  ExposedPort(5432))))
+              .withPortBindings(PortBinding(Ports.Binding.bindPort(5433), ExposedPort(5432))))
         }
         .also { it.start() }
     val schemaName = getSchemaName()
