@@ -73,7 +73,7 @@ object TestcontainerInitializer {
         .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
-        .withExposedPorts(5433) // TODO make this configuration driven
+        .withExposedPorts(5432)
         // TODO if this works, add it to keycloak
         .withCreateContainerCmdModifier { cmd ->
           cmd.withHostConfig(
