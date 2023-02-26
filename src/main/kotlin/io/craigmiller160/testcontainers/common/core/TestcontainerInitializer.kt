@@ -40,6 +40,12 @@ object TestcontainerInitializer {
         .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
         .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
         .withReuse(true)
+        .withExposedPorts(8081)
+        .withCreateContainerCmdModifier { cmd ->
+          cmd.withHostConfig(
+            HostConfig()
+              .withPortBindings(PortBinding(Ports.Binding.bindPort(8081), ExposedPort(8080))))
+        }
         .also { it.start() }
     System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
     System.setProperty(
