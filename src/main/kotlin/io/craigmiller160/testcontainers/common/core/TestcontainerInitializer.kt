@@ -1,5 +1,9 @@
 package io.craigmiller160.testcontainers.common.core
 
+import com.github.dockerjava.api.model.ExposedPort
+import com.github.dockerjava.api.model.HostConfig
+import com.github.dockerjava.api.model.PortBinding
+import com.github.dockerjava.api.model.Ports
 import dasniko.testcontainers.keycloak.KeycloakContainer
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import io.craigmiller160.testcontainers.common.utils.Terminal
@@ -36,6 +40,12 @@ object TestcontainerInitializer {
         .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
         .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
         .withReuse(true)
+        .withExposedPorts(8080)
+        .withCreateContainerCmdModifier { cmd ->
+          cmd.withHostConfig(
+            HostConfig()
+              .withPortBindings(PortBinding(Ports.Binding.bindPort(8081), ExposedPort(8080))))
+        }
         .also { it.start() }
     System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
     System.setProperty(
@@ -69,6 +79,12 @@ object TestcontainerInitializer {
         .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
+        .withExposedPorts(5432)
+        .withCreateContainerCmdModifier { cmd ->
+          cmd.withHostConfig(
+            HostConfig()
+              .withPortBindings(PortBinding(Ports.Binding.bindPort(5433), ExposedPort(5432))))
+        }
         .also { it.start() }
     val schemaName = getSchemaName()
     initializeSchema(container, schemaName)

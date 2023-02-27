@@ -21,6 +21,17 @@ keycloak:
   enable: true
 ```
 
+## Container Settings
+
+The containers created by this library are bound to the following local ports.
+
+| Container | Port |
+|-----------|------|
+| Postgres  | 5433 |
+| Keycloak  | 8081 |
+
+In addition, Postgres stores everything in a database called `test`. The schema name is derived from the project directory, with the schema name derived from the project directory. The schema name has `-` replaced with `_`, so `expense-tracker-api` becomes the schema `expense_tracker_api`.
+
 ## System Properties Set
 
 To support connecting to the containers, the following system properties are set after container startup.
