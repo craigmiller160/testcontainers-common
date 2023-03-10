@@ -40,7 +40,8 @@ To support connecting to the containers, the following system properties are set
 
 | Property                                | Description                                                                              |
 |-----------------------------------------|------------------------------------------------------------------------------------------|
-| testcontainers.common.postgres.url      | The full JDBC URL for Postgres                                                           |
+| testcontainers.common.postgres.jdbcUrl  | The full JDBC URL for Postgres                                                           |
+| testcontainers.common.postgres.r2dbcUrl | The full R2DBC URL for Postgres                                                          |
 | testcontainers.common.postgres.user     | The username for Postgres                                                                |  
 | testcontainers.common.postgres.password | The password for Postgres                                                                |
 | testcontainers.common.postgres.schema   | The schema name for the tests for this application (better supports reuse of containers) |
