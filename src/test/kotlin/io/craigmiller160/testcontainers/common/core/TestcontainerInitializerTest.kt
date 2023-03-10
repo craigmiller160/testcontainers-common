@@ -28,6 +28,9 @@ class TestcontainerInitializerTest {
       System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
       result.postgresContainer?.jdbcUrl)
     assertEquals(
+      System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
+      result.postgresContainer?.jdbcUrl?.replace(Regex("^jdbc"), "r2dbc"))
+    assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_USER_PROP),
       result.postgresContainer?.username)
     assertEquals(

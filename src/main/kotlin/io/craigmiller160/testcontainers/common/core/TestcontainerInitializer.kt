@@ -73,6 +73,9 @@ object TestcontainerInitializer {
     val schemaName = getSchemaName()
     initializeSchema(container, schemaName)
     System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
+    System.setProperty(
+      TestcontainerConstants.POSTGRES_R2_URL_PROP,
+      container.jdbcUrl.replace(Regex("^jdbc"), "r2dbc"))
     System.setProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     System.setProperty(TestcontainerConstants.POSTGRES_USER_PROP, container.username)
     System.setProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP, schemaName)
