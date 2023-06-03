@@ -47,7 +47,8 @@ object TestcontainerInitializer {
               .withPortBindings(PortBinding(Ports.Binding.bindPort(8081), ExposedPort(8080))))
         }
         .also { it.start() }
-    System.setProperty(TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl)
+    System.setProperty(
+      TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl.replace(Regex("\\/$"), ""))
     System.setProperty(
       TestcontainerConstants.KEYCLOAK_REALM_PROP, TestcontainerConstants.KEYCLOAK_REALM)
     System.setProperty(

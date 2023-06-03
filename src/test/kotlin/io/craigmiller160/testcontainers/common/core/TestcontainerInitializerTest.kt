@@ -38,7 +38,7 @@ class TestcontainerInitializerTest {
       result.postgresContainer?.password)
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
-      result.keycloakContainer?.authServerUrl)
+      result.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers_common")
     assertEquals(
