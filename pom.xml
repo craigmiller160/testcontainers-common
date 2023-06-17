@@ -21,7 +21,7 @@
         <testcontainers.version>1.17.2</testcontainers.version>
         <keycloak.testcontainer.version>2.4.0</keycloak.testcontainer.version>
         <junit.version>5.9.0</junit.version>
-        <snakeyaml.version>1.33</snakeyaml.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <java.version>18</java.version>
         <assertj.version>3.24.2</assertj.version>
