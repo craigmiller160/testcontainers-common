@@ -88,7 +88,7 @@ object TestcontainerInitializer {
     return ContainerStatus.STARTED to container
   }
 
-  fun getSchemaName(): String =
+  fun getPostgresSchema(): String =
     Paths.get(Terminal.execute("pwd")).fileName.toString().trim().replace("-", "_")
 
   private fun initializeSchema(container: PostgreSQLContainer<*>, schemaName: String) {
@@ -107,7 +107,7 @@ object TestcontainerInitializer {
         .withExposedPorts(5432)
         .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(5433, 5422) }
         .also { it.start() }
-    val schemaName = getSchemaName()
+    val schemaName = getPostgresSchema()
     initializeSchema(container, schemaName)
     System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
     System.setProperty(

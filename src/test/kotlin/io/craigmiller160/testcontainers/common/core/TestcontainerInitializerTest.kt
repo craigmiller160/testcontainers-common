@@ -4,13 +4,22 @@ import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import kotlin.test.assertEquals
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 class TestcontainerInitializerTest {
+  private lateinit var initResult: ContainerInitializationResult
+
+  @AfterEach
+  fun stopContainers() {
+    initResult.keycloakContainer?.stop()
+    initResult.mongoContainer?.stop()
+    initResult.postgresContainer?.stop()
+  }
 
   @Test
-  fun `gets schema name based on working directory`() {
-    val schemaName = TestcontainerInitializer.getSchemaName()
+  fun `gets postgres schema name based on working directory`() {
+    val schemaName = TestcontainerInitializer.getPostgresSchema()
     assertEquals("testcontainers_common", schemaName)
   }
 
