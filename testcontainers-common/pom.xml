@@ -7,7 +7,8 @@
     <parent>
         <artifactId>testcontainers-common-parent</artifactId>
         <groupId>io.craigmiller160</groupId>
-        <version>${project.parent.version}</version>
+        <!-- TODO I don't want to hardcode -->
+        <version>1.3.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -37,7 +38,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
+                <version>1.9.23</version>
                 <executions>
                     <execution>
                         <id>compile</id>
