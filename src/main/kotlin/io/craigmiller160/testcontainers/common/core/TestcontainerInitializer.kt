@@ -40,16 +40,21 @@ object TestcontainerInitializer {
       keycloakStatus = keycloakStatus,
       mongoStatus = mongoStatus,
       postgresContainer = postgresContainer,
-      keycloakContainer = keycloakContainer)
+      keycloakContainer = keycloakContainer,
+      mongoContainer = mongoContainer)
   }
 
-  private fun startMongoContainer(): Pair<ContainerStatus, Any> {
+  private fun startMongoContainer(): Pair<ContainerStatus, MongoDBContainer> {
     val container =
       MongoDBContainer(TestcontainerConstants.MONGO_IMAGE)
         .withEnv(TestcontainerConstants.MONGO_ENV_ROOT_USERNAME, TestcontainerConstants.MONGO_USER)
         .withEnv(
           TestcontainerConstants.MONGO_ENV_ROOT_PASSWORD, TestcontainerConstants.MONGO_PASSWORD)
         .withExposedPorts(27017)
+        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
+        .also { it.start() }
+
+    return ContainerStatus.STARTED to container
   }
 
   private fun startKeycloakContainer(): Pair<ContainerStatus, KeycloakContainer> {
