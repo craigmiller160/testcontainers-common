@@ -19,10 +19,13 @@ class TestcontainerInitializerTest {
     val result =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(
-          postgres = ContainerConfig(enable = true), keycloak = ContainerConfig(enable = true)))
+          postgres = ContainerConfig(enable = true),
+          keycloak = ContainerConfig(enable = true),
+          mongo = ContainerConfig(enable = true)))
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
+    TODO("Test for mongo")
 
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
@@ -56,35 +59,47 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP),
       TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+
+    TODO("Test for mongo")
   }
 
   @Test
   fun `can initialize postgres only`() {
     val result =
       TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(postgres = ContainerConfig(enable = true), keycloak = null))
+        TestcontainersCommonConfig(
+          postgres = ContainerConfig(enable = true), keycloak = null, mongo = null))
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
+    TODO("Test for mongo not being here")
   }
 
   @Test
   fun `can initialize keycloak only`() {
     val result =
       TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(postgres = null, keycloak = ContainerConfig(enable = true)))
+        TestcontainersCommonConfig(
+          postgres = null, keycloak = ContainerConfig(enable = true), mongo = null))
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
+    TODO("Test for mongo not being here")
+  }
+
+  @Test
+  fun `can initialize mongo only`() {
+    TODO()
   }
 
   @Test
   fun `can initialize nothing`() {
     val result =
       TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(postgres = null, keycloak = null))
+        TestcontainersCommonConfig(postgres = null, keycloak = null, mongo = null))
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
+    TODO("Test for mongo not being here")
   }
 }
