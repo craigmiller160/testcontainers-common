@@ -53,7 +53,7 @@ object TestcontainerInitializer {
         //          TestcontainerConstants.MONGO_ENV_ROOT_PASSWORD,
         // TestcontainerConstants.MONGO_PASSWORD)
         .withExposedPorts(27017)
-        //        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
+        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
         .also { it.start() }
     System.setProperty(TestcontainerConstants.MONGO_URL_PROP, container.replicaSetUrl)
     System.setProperty(TestcontainerConstants.MONGO_USER_PROP, TestcontainerConstants.MONGO_USER)
