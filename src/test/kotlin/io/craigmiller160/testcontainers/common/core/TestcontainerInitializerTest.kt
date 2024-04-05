@@ -25,41 +25,36 @@ class TestcontainerInitializerTest {
   }
 
   private fun validatePostgresProps() {
-    assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
-      initResult?.postgresContainer?.jdbcUrl)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_R2_URL_PROP),
-      initResult?.postgresContainer?.jdbcUrl?.replace(Regex("^jdbc"), "r2dbc"))
-    assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_USER_PROP),
-      initResult?.postgresContainer?.username)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP),
-      initResult?.postgresContainer?.password)
+    assertThat(System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP))
+      .isEqualTo(initResult?.postgresContainer?.jdbcUrl)
+    assertThat(System.getProperty(TestcontainerConstants.POSTGRES_R2_URL_PROP))
+      .isEqualTo(initResult?.postgresContainer?.jdbcUrl?.replace(Regex("^jdbc"), "r2dbc"))
+    assertThat(System.getProperty(TestcontainerConstants.POSTGRES_USER_PROP))
+      .isEqualTo(initResult?.postgresContainer?.username)
+    assertThat(System.getProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP))
+      .isEqualTo(initResult?.postgresContainer?.password)
   }
 
   private fun validateKeycloakProps() {
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
-      initResult?.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
-    assertEquals(
-      System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers_common")
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_REALM_PROP),
-      TestcontainerConstants.KEYCLOAK_REALM)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP),
-      TestcontainerConstants.KEYCLOAK_CLIENT_ID)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP),
-      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP),
-      TestcontainerConstants.KEYCLOAK_ADMIN_USER)
-    assertEquals(
-      System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP),
-      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP))
+      .isEqualTo(initResult?.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
+    assertThat(System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP))
+      .isEqualTo("testcontainers_common")
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_REALM_PROP))
+      .isEqualTo(TestcontainerConstants.KEYCLOAK_REALM)
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP))
+      .isEqualTo(TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP))
+      .isEqualTo(TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP))
+      .isEqualTo(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+    assertThat(System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP))
+      .isEqualTo(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+  }
+
+  private fun validateMongoProps() {
+    assertThat(System.getProperty(TestcontainerConstants.MONGO_URL_PROP))
+      .isEqualTo("mongodb://127.0.0.1:27018/test")
   }
 
   @Test
@@ -77,7 +72,7 @@ class TestcontainerInitializerTest {
 
     validatePostgresProps()
     validateKeycloakProps()
-    TODO("Test for mongo")
+    validateMongoProps()
   }
 
   @Test
@@ -118,6 +113,8 @@ class TestcontainerInitializerTest {
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
+
+    validateMongoProps()
   }
 
   @Test
