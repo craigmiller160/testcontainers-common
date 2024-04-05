@@ -1,38 +1,22 @@
 package io.craigmiller160.testcontainers.common.spring.config
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.env.Environment
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.mock.env.MockEnvironment
 
-@SpringBootTest(classes = [SpringConfigResolver::class])
-@ExtendWith(SpringExtension::class)
 class SpringConfigResolverTest {
-  @Autowired private lateinit var env: Environment
-
-  companion object {
-    @DynamicPropertySource
-    @JvmStatic
-    fun registerDynamicProperties(registry: DynamicPropertyRegistry) {
-      var count = 0
-      registry.add("my-prop") {
-        count++
-        if (count % 2 == 0) {
-          "hello"
-        } else {
-          "world"
-        }
-      }
-    }
-  }
 
   @Test
   fun `resolves configuration for all containers`() {
-    TODO()
+    val env =
+        MockEnvironment()
+            .withProperty("testcontainers.common.postgres.enable", "true")
+            .withProperty("testcontainers.common.keycloak.enable", "true")
+            .withProperty("testcontainers.common.mongodb.enable", "true")
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
   }
 
   @Test
