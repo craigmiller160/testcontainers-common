@@ -18,7 +18,7 @@
         <spotless.version>2.26.0</spotless.version>
         <maven.git.hooks.version>1.0.1</maven.git.hooks.version>
         <git.hooks.plugin.version>3.3.0</git.hooks.plugin.version>
-        <testcontainers.version>1.17.2</testcontainers.version>
+        <testcontainers.version>1.19.7</testcontainers.version>
         <keycloak.testcontainer.version>2.4.0</keycloak.testcontainer.version>
         <junit.version>5.9.0</junit.version>
         <snakeyaml.version>1.33</snakeyaml.version>
@@ -213,6 +213,10 @@
             <groupId>com.github.dasniko</groupId>
             <artifactId>testcontainers-keycloak</artifactId>
             <version>${keycloak.testcontainer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
