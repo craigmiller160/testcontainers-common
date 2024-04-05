@@ -11,6 +11,7 @@
 
     <modules>
         <module>testcontainers-common</module>
+        <module>testcontainers-common-spring</module>
     </modules>
 
     <distributionManagement>
