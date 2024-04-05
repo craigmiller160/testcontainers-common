@@ -25,7 +25,7 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-    TODO("Test for mongo")
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
 
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
@@ -72,7 +72,7 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
-    TODO("Test for mongo not being here")
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
   }
 
   @Test
@@ -84,7 +84,7 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-    TODO("Test for mongo not being here")
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
   }
 
   @Test
@@ -100,6 +100,6 @@ class TestcontainerInitializerTest {
     assertThat(result)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
-    TODO("Test for mongo not being here")
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
   }
 }
