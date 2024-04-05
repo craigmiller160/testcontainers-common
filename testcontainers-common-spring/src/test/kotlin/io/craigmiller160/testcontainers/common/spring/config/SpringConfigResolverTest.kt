@@ -1,6 +1,5 @@
 package io.craigmiller160.testcontainers.common.spring.config
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,9 +31,8 @@ class SpringConfigResolverTest {
   }
 
   @Test
-  fun `resolves configuration for all properties`() {
-    assertEquals("world", env.getProperty("my-prop"))
-    assertEquals("hello", env.getProperty("my-prop"))
+  fun `resolves configuration for all containers`() {
+    TODO()
   }
 
   @Test
@@ -44,6 +42,11 @@ class SpringConfigResolverTest {
 
   @Test
   fun `resolves configuration for keycloak only`() {
+    TODO()
+  }
+
+  @Test
+  fun `resolves configuration for mongo only`() {
     TODO()
   }
 
