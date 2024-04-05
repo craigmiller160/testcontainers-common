@@ -8,13 +8,14 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 class TestcontainerInitializerTest {
-  private lateinit var initResult: ContainerInitializationResult
+  private var initResult: ContainerInitializationResult? = null
 
   @AfterEach
   fun stopContainers() {
-    initResult.keycloakContainer?.stop()
-    initResult.mongoContainer?.stop()
-    initResult.postgresContainer?.stop()
+    initResult?.keycloakContainer?.stop()
+    initResult?.mongoContainer?.stop()
+    initResult?.postgresContainer?.stop()
+    initResult = null
   }
 
   @Test
@@ -25,32 +26,32 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize all containers`() {
-    val result =
+    initResult =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(
           postgres = ContainerConfig(enable = true),
           keycloak = ContainerConfig(enable = true),
           mongo = ContainerConfig(enable = true)))
-    assertThat(result)
+    assertThat(initResult)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
 
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
-      result.postgresContainer?.jdbcUrl)
+      initResult?.postgresContainer?.jdbcUrl)
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_R2_URL_PROP),
-      result.postgresContainer?.jdbcUrl?.replace(Regex("^jdbc"), "r2dbc"))
+      initResult?.postgresContainer?.jdbcUrl?.replace(Regex("^jdbc"), "r2dbc"))
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_USER_PROP),
-      result.postgresContainer?.username)
+      initResult?.postgresContainer?.username)
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP),
-      result.postgresContainer?.password)
+      initResult?.postgresContainer?.password)
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
-      result.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
+      initResult?.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP), "testcontainers_common")
     assertEquals(
@@ -74,11 +75,11 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize postgres only`() {
-    val result =
+    initResult =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(
           postgres = ContainerConfig(enable = true), keycloak = null, mongo = null))
-    assertThat(result)
+    assertThat(initResult)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
@@ -86,11 +87,11 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize keycloak only`() {
-    val result =
+    initResult =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(
           postgres = null, keycloak = ContainerConfig(enable = true), mongo = null))
-    assertThat(result)
+    assertThat(initResult)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
@@ -103,10 +104,10 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize nothing`() {
-    val result =
+    initResult =
       TestcontainerInitializer.initialize(
         TestcontainersCommonConfig(postgres = null, keycloak = null, mongo = null))
-    assertThat(result)
+    assertThat(initResult)
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
