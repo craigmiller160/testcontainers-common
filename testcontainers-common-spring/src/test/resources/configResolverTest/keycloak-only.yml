@@ -1,0 +1,4 @@
+testcontainers:
+  common:
+    keycloak:
+      enable: true

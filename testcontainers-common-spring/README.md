@@ -1,0 +1,1 @@
+# Testcontainers Common - Spring
