@@ -54,7 +54,7 @@ class TestcontainerInitializerTest {
 
   private fun validateMongoProps() {
     assertThat(System.getProperty(TestcontainerConstants.MONGO_URL_PROP))
-      .isEqualTo("mongodb://127.0.0.1:27018/test")
+      .isEqualTo("mongodb://localhost:27018/test")
   }
 
   @Test
