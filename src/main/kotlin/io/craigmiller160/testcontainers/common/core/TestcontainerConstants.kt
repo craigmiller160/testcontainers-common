@@ -30,4 +30,7 @@ object TestcontainerConstants {
   const val MONGO_PASSWORD = "password"
   const val MONGO_ENV_ROOT_USERNAME = "MONGO_INITDB_ROOT_USERNAME"
   const val MONGO_ENV_ROOT_PASSWORD = "MONGO_INITDB_ROOT_PASSWORD"
+  const val MONGO_URL_PROP = "testcontainers.common.mongodb.url"
+  const val MONGO_USER_PROP = "testcontainers.common.mongodb.user"
+  const val MONGO_PASSWORD_PROP = "testcontainers.common.mongodb.password"
 }

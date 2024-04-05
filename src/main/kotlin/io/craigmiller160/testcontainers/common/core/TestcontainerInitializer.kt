@@ -53,6 +53,10 @@ object TestcontainerInitializer {
         .withExposedPorts(27017)
         .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
         .also { it.start() }
+    System.setProperty(TestcontainerConstants.MONGO_URL_PROP, container.replicaSetUrl)
+    System.setProperty(TestcontainerConstants.MONGO_USER_PROP, TestcontainerConstants.MONGO_USER)
+    System.setProperty(
+      TestcontainerConstants.MONGO_PASSWORD_PROP, TestcontainerConstants.MONGO_PASSWORD)
 
     return ContainerStatus.STARTED to container
   }
