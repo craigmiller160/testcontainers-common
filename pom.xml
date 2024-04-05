@@ -6,8 +6,12 @@
 
     <artifactId>testcontainers-common-parent</artifactId>
     <groupId>io.craigmiller160</groupId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <testcontainers-common.version>1.3.0-SNAPSHOT</testcontainers-common.version>
+    </properties>
 
     <modules>
         <module>testcontainers-common</module>
