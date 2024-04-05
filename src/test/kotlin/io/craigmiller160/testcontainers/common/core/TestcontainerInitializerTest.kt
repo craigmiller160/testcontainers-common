@@ -24,19 +24,7 @@ class TestcontainerInitializerTest {
     assertEquals("testcontainers_common", schemaName)
   }
 
-  @Test
-  fun `can initialize all containers`() {
-    initResult =
-      TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(
-          postgres = ContainerConfig(enable = true),
-          keycloak = ContainerConfig(enable = true),
-          mongo = ContainerConfig(enable = true)))
-    assertThat(initResult)
-      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
-      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
-
+  private fun validatePostgresProps() {
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_URL_PROP),
       initResult?.postgresContainer?.jdbcUrl)
@@ -49,6 +37,9 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP),
       initResult?.postgresContainer?.password)
+  }
+
+  private fun validateKeycloakProps() {
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP),
       initResult?.keycloakContainer?.authServerUrl?.replace(Regex("\\/$"), ""))
@@ -69,7 +60,23 @@ class TestcontainerInitializerTest {
     assertEquals(
       System.getProperty(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP),
       TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+  }
 
+  @Test
+  fun `can initialize all containers`() {
+    initResult =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(
+          postgres = ContainerConfig(enable = true),
+          keycloak = ContainerConfig(enable = true),
+          mongo = ContainerConfig(enable = true)))
+    assertThat(initResult)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
+
+    validatePostgresProps()
+    validateKeycloakProps()
     TODO("Test for mongo")
   }
 
@@ -83,6 +90,8 @@ class TestcontainerInitializerTest {
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
+
+    validatePostgresProps()
   }
 
   @Test
@@ -95,6 +104,8 @@ class TestcontainerInitializerTest {
       .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
       .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
       .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.DISABLED)
+
+    validateKeycloakProps()
   }
 
   @Test
