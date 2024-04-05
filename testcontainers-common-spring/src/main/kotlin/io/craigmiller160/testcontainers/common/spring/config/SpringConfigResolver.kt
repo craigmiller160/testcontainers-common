@@ -4,9 +4,7 @@ import io.craigmiller160.testcontainers.common.config.ConfigResolver
 import io.craigmiller160.testcontainers.common.config.ContainerConfig
 import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import org.springframework.core.env.Environment
-import org.springframework.stereotype.Component
 
-@Component
 class SpringConfigResolver(private val environment: Environment) : ConfigResolver {
   override fun resolve(): TestcontainersCommonConfig {
     val postgresConfig =
