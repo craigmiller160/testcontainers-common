@@ -15,41 +15,41 @@ import org.testcontainers.containers.PostgreSQLContainer
 object TestcontainerInitializer {
   fun initialize(config: TestcontainersCommonConfig): ContainerInitializationResult {
     val (postgresStatus, postgresContainer) =
-      if (config.postgres?.enable == true) {
-        startPostgresContainer()
-      } else {
-        ContainerStatus.DISABLED to null
-      }
+        if (config.postgres?.enable == true) {
+          startPostgresContainer()
+        } else {
+          ContainerStatus.DISABLED to null
+        }
 
     val (keycloakStatus, keycloakContainer) =
-      if (config.keycloak?.enable == true) {
-        startKeycloakContainer()
-      } else {
-        ContainerStatus.DISABLED to null
-      }
+        if (config.keycloak?.enable == true) {
+          startKeycloakContainer()
+        } else {
+          ContainerStatus.DISABLED to null
+        }
 
     val (mongoStatus, mongoContainer) =
-      if (config.mongo?.enable == true) {
-        startMongoContainer()
-      } else {
-        ContainerStatus.DISABLED to null
-      }
+        if (config.mongo?.enable == true) {
+          startMongoContainer()
+        } else {
+          ContainerStatus.DISABLED to null
+        }
 
     return ContainerInitializationResult(
-      postgresStatus = postgresStatus,
-      keycloakStatus = keycloakStatus,
-      mongoStatus = mongoStatus,
-      postgresContainer = postgresContainer,
-      keycloakContainer = keycloakContainer,
-      mongoContainer = mongoContainer)
+        postgresStatus = postgresStatus,
+        keycloakStatus = keycloakStatus,
+        mongoStatus = mongoStatus,
+        postgresContainer = postgresContainer,
+        keycloakContainer = keycloakContainer,
+        mongoContainer = mongoContainer)
   }
 
   private fun startMongoContainer(): Pair<ContainerStatus, MongoDBContainer> {
     val container =
-      MongoDBContainer(TestcontainerConstants.MONGO_IMAGE)
-        .withExposedPorts(27017)
-        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
-        .also { it.start() }
+        MongoDBContainer(TestcontainerConstants.MONGO_IMAGE)
+            .withExposedPorts(27017)
+            .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
+            .also { it.start() }
     System.setProperty(TestcontainerConstants.MONGO_URL_PROP, container.replicaSetUrl)
 
     return ContainerStatus.STARTED to container
@@ -57,33 +57,34 @@ object TestcontainerInitializer {
 
   private fun startKeycloakContainer(): Pair<ContainerStatus, KeycloakContainer> {
     val container =
-      KeycloakContainer(TestcontainerConstants.KEYCLOAK_IMAGE)
-        .withAdminUsername(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
-        .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
-        .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
-        .withReuse(true)
-        .withExposedPorts(8080)
-        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(8081, 8080) }
-        .also { it.start() }
+        KeycloakContainer(TestcontainerConstants.KEYCLOAK_IMAGE)
+            .withAdminUsername(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+            .withAdminPassword(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+            .withRealmImportFile(TestcontainerConstants.KEYCLOAK_REALM_FILE)
+            .withReuse(true)
+            .withExposedPorts(8080)
+            .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(8081, 8080) }
+            .also { it.start() }
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_URL_PROP, container.authServerUrl.replace(Regex("\\/$"), ""))
+        TestcontainerConstants.KEYCLOAK_URL_PROP,
+        container.authServerUrl.replace(Regex("\\/$"), ""))
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_REALM_PROP, TestcontainerConstants.KEYCLOAK_REALM)
+        TestcontainerConstants.KEYCLOAK_REALM_PROP, TestcontainerConstants.KEYCLOAK_REALM)
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP, TestcontainerConstants.KEYCLOAK_CLIENT_ID)
+        TestcontainerConstants.KEYCLOAK_CLIENT_ID_PROP, TestcontainerConstants.KEYCLOAK_CLIENT_ID)
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP,
-      TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
+        TestcontainerConstants.KEYCLOAK_CLIENT_SECRET_PROP,
+        TestcontainerConstants.KEYCLOAK_CLIENT_SECRET)
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP, TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+        TestcontainerConstants.KEYCLOAK_ADMIN_USER_PROP, TestcontainerConstants.KEYCLOAK_ADMIN_USER)
     System.setProperty(
-      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP,
-      TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+        TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD_PROP,
+        TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
     return ContainerStatus.STARTED to container
   }
 
   fun getPostgresSchema(): String =
-    Paths.get(Terminal.execute("pwd")).fileName.toString().trim().replace("-", "_")
+      Paths.get(Terminal.execute("pwd")).fileName.toString().trim().replace("-", "_")
 
   private fun initializeSchema(container: PostgreSQLContainer<*>, schemaName: String) {
     container.createConnection("").use { conn ->
@@ -93,20 +94,20 @@ object TestcontainerInitializer {
 
   private fun startPostgresContainer(): Pair<ContainerStatus, PostgreSQLContainer<*>> {
     val container =
-      PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
-        .withUsername(TestcontainerConstants.POSTGRES_USER)
-        .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
-        .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
-        .withReuse(true)
-        .withExposedPorts(5432)
-        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(5433, 5432) }
-        .also { it.start() }
+        PostgreSQLContainer(TestcontainerConstants.POSTGRES_IMAGE)
+            .withUsername(TestcontainerConstants.POSTGRES_USER)
+            .withPassword(TestcontainerConstants.POSTGRES_PASSWORD)
+            .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
+            .withReuse(true)
+            .withExposedPorts(5432)
+            .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(5433, 5432) }
+            .also { it.start() }
     val schemaName = getPostgresSchema()
     initializeSchema(container, schemaName)
     System.setProperty(TestcontainerConstants.POSTGRES_URL_PROP, container.jdbcUrl)
     System.setProperty(
-      TestcontainerConstants.POSTGRES_R2_URL_PROP,
-      container.jdbcUrl.replace(Regex("^jdbc"), "r2dbc"))
+        TestcontainerConstants.POSTGRES_R2_URL_PROP,
+        container.jdbcUrl.replace(Regex("^jdbc"), "r2dbc"))
     System.setProperty(TestcontainerConstants.POSTGRES_PASSWORD_PROP, container.password)
     System.setProperty(TestcontainerConstants.POSTGRES_USER_PROP, container.username)
     System.setProperty(TestcontainerConstants.POSTGRES_SCHEMA_PROP, schemaName)
@@ -114,11 +115,11 @@ object TestcontainerInitializer {
   }
 
   private fun CreateContainerCmd.bindToPublicPort(
-    publicPort: Int,
-    privatePort: Int
+      publicPort: Int,
+      privatePort: Int
   ): CreateContainerCmd =
-    this.withHostConfig(
-      HostConfig()
-        .withPortBindings(
-          PortBinding(Ports.Binding.bindPort(publicPort), ExposedPort(privatePort))))
+      this.withHostConfig(
+          HostConfig()
+              .withPortBindings(
+                  PortBinding(Ports.Binding.bindPort(publicPort), ExposedPort(privatePort))))
 }

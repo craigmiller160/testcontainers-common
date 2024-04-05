@@ -17,20 +17,20 @@ class AuthenticationHelperTest {
     @JvmStatic
     fun setup() {
       TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(
-          postgres = null, mongo = null, keycloak = ContainerConfig(enable = true)))
+          TestcontainersCommonConfig(
+              postgres = null, mongo = null, keycloak = ContainerConfig(enable = true)))
     }
   }
 
   private val keycloak =
-    KeycloakBuilder.builder()
-      .serverUrl(System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP))
-      .realm(AuthenticationHelper.ADMIN_REALM)
-      .username(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
-      .password(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
-      .clientId(AuthenticationHelper.ADMIN_CLIENT_ID)
-      .grantType(AuthenticationHelper.GRANT_TYPE_VALUE)
-      .build()
+      KeycloakBuilder.builder()
+          .serverUrl(System.getProperty(TestcontainerConstants.KEYCLOAK_URL_PROP))
+          .realm(AuthenticationHelper.ADMIN_REALM)
+          .username(TestcontainerConstants.KEYCLOAK_ADMIN_USER)
+          .password(TestcontainerConstants.KEYCLOAK_ADMIN_PASSWORD)
+          .clientId(AuthenticationHelper.ADMIN_CLIENT_ID)
+          .grantType(AuthenticationHelper.GRANT_TYPE_VALUE)
+          .build()
 
   @Test
   fun `can create a user in keycloak and then login with that user`() {
@@ -38,15 +38,15 @@ class AuthenticationHelperTest {
     val userName = "MyUser@gmail.com"
     val testUser = helper.createUser(userName)
     assertThat(testUser)
-      .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE))
+        .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE))
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val users = realm.users().searchByUsername(testUser.userName, true)
     assertThat(users)
-      .hasSize(1)
-      .first()
-      .hasFieldOrPropertyWithValue("username", testUser.userName.lowercase())
+        .hasSize(1)
+        .first()
+        .hasFieldOrPropertyWithValue("username", testUser.userName.lowercase())
 
     val token = helper.login(testUser)
     assertNotNull(token)
@@ -60,18 +60,22 @@ class AuthenticationHelperTest {
 
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val kcClientId =
-      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+        realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
     realm.clients().get(kcClientId).roles().create(RoleRepresentation().apply { name = roleName })
 
     val testUser = helper.createUser(userName, listOf(AuthenticationHelper.ACCESS_ROLE, roleName))
     assertThat(testUser)
-      .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE, roleName))
+        .hasFieldOrPropertyWithValue("roles", listOf(AuthenticationHelper.ACCESS_ROLE, roleName))
     assertThat(testUser.userName).matches("^\\S+_$userName")
 
     val roles =
-      realm.users().get(testUser.userId.toString()).roles().clientLevel(kcClientId).listAll().map {
-        it.name
-      }
+        realm
+            .users()
+            .get(testUser.userId.toString())
+            .roles()
+            .clientLevel(kcClientId)
+            .listAll()
+            .map { it.name }
     assertThat(roles).contains(AuthenticationHelper.ACCESS_ROLE, roleName)
   }
 
@@ -83,7 +87,7 @@ class AuthenticationHelperTest {
 
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val clientId =
-      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+        realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
 
     assertDoesNotThrow { realm.clients().get(clientId).roles().get(roleName) }
   }
@@ -95,7 +99,7 @@ class AuthenticationHelperTest {
 
     val realm = keycloak.realm(TestcontainerConstants.KEYCLOAK_REALM)
     val clientId =
-      realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
+        realm.clients().findByClientId(TestcontainerConstants.KEYCLOAK_CLIENT_ID).first().id
 
     realm.clients().get(clientId).roles().create(RoleRepresentation().apply { name = roleName })
 
