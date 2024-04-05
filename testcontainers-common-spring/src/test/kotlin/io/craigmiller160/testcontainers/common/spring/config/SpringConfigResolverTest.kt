@@ -30,6 +30,7 @@ class SpringConfigResolverTest {
       }
     }
   }
+
   @Test
   fun `resolves configuration for all properties`() {
     assertEquals("world", env.getProperty("my-prop"))

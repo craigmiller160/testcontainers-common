@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component
 class SpringConfigResolver(private val environment: Environment) : ConfigResolver {
   override fun resolve(): TestcontainersCommonConfig {
     val postgresConfig =
-      environment.getProperty("testcontainers.common.postgres.enable")?.let {
-        ContainerConfig(it == "true")
-      }
+        environment.getProperty("testcontainers.common.postgres.enable")?.let {
+          ContainerConfig(it == "true")
+        }
     val keycloakConfig =
-      environment.getProperty("testcontainers.common.keycloak.enable")?.let {
-        ContainerConfig(it == "true")
-      }
+        environment.getProperty("testcontainers.common.keycloak.enable")?.let {
+          ContainerConfig(it == "true")
+        }
     return TestcontainersCommonConfig(postgres = postgresConfig, keycloak = keycloakConfig)
   }
 }
