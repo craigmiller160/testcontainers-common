@@ -17,7 +17,8 @@ class AuthenticationHelperTest {
     @JvmStatic
     fun setup() {
       TestcontainerInitializer.initialize(
-        TestcontainersCommonConfig(postgres = null, keycloak = ContainerConfig(enable = true)))
+        TestcontainersCommonConfig(
+          postgres = null, mongo = null, keycloak = ContainerConfig(enable = true)))
     }
   }
 
