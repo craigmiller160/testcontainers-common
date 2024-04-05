@@ -2,35 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.8</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>testcontainers-common-parent</artifactId>
+        <groupId>io.craigmiller160</groupId>
+        <version>1.3.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>io.craigmiller160</groupId>
+
     <artifactId>testcontainers-common-spring</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>testcontainers-common-spring</name>
-    <description>testcontainers-common-spring</description>
+
     <properties>
         <java.version>17</java.version>
-        <kotlin.version>1.8.0</kotlin.version>
-        <testcontainers.version>1.17.2</testcontainers.version>
+        <kotlin.version>1.9.23</kotlin.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Releases</name>
-            <url>https://nexus-craigmiller160.ddns.net/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>https://nexus-craigmiller160.ddns.net/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -44,7 +29,7 @@
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers.version}</version>
+                <version>1.19.7</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -93,9 +78,11 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
                 <configuration>
                     <args>
                         <arg>-Xjsr305=strict</arg>
+                        <jvmTarget>${java.version}</jvmTarget>
                     </args>
                     <compilerPlugins>
                         <plugin>spring</plugin>
