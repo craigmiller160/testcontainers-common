@@ -26,11 +26,23 @@ object TestcontainerInitializer {
         ContainerStatus.DISABLED to null
       }
 
+    val (mongoStatus, mongoContainer) =
+      if (config.mongo?.enable == true) {
+        startMongoContainer()
+      } else {
+        ContainerStatus.DISABLED to null
+      }
+
     return ContainerInitializationResult(
       postgresStatus = postgresStatus,
       keycloakStatus = keycloakStatus,
+      mongoStatus = mongoStatus,
       postgresContainer = postgresContainer,
       keycloakContainer = keycloakContainer)
+  }
+
+  private fun startMongoContainer(): Pair<ContainerStatus, Any> {
+    TODO()
   }
 
   private fun startKeycloakContainer(): Pair<ContainerStatus, KeycloakContainer> {
