@@ -23,6 +23,8 @@ keycloak:
 
 ## Container Settings
 
+### Ports
+
 The containers created by this library are bound to the following local ports.
 
 | Container | Port  |
@@ -31,7 +33,12 @@ The containers created by this library are bound to the following local ports.
 | Keycloak  | 8081  |
 | Mongo     | 27018 |
 
-In addition, Postgres stores everything in a database called `test`. The schema name is derived from the project directory, with the schema name derived from the project directory. The schema name has `-` replaced with `_`, so `expense-tracker-api` becomes the schema `expense_tracker_api`.
+### Additional Settings
+
+- Postgres stores everything in a database called `test`.
+- Postgres schema name is derived from the project directory, with the schema name derived from the project directory. The schema name has `-` replaced with `_`, so `expense-tracker-api` becomes the schema `expense_tracker_api`.
+- MongoDB stores everything in a database called `test`.
+- MongoDB has no authentication. It is not properly supported by the testcontainer yet.
 
 ## System Properties Set
 
@@ -57,6 +64,12 @@ To support connecting to the containers, the following system properties are set
 | testcontainers.common.keycloak.realm          | The realm setup in Keycloak               |
 | testcontainers.common.keycloak.client.id      | The test Client ID in Keycloak            |
 | testcontainers.common.keycloak.client.secret  | The test Client Secret in Keycloak        |
+
+### MongoDB Properties
+
+| Property                          | Description                    |
+|-----------------------------------|--------------------------------|
+| testcontainers.common.mongodb.url | The connection URL for MongoDB |
 
 ## How to Reuse
 
