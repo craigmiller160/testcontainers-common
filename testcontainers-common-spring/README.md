@@ -24,3 +24,15 @@ testcontainers:
     mongodb:
       enable: true
 ```
+
+## Container Settings
+
+See [testcontainers-common README](../testcontainers-common/README.md)
+
+## System Properties Set
+
+See [testcontainers-common README](../testcontainers-common/README.md)
+
+## How to Reuse
+
+See [testcontainers-common README](../testcontainers-common/README.md)
