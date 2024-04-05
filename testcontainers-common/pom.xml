@@ -7,9 +7,12 @@
     <parent>
         <artifactId>testcontainers-common-parent</artifactId>
         <groupId>io.craigmiller160</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <artifactId>testcontainers-common</artifactId>
+    <packaging>jar</packaging>
 
     <dependencyManagement>
         <dependencies>
@@ -29,10 +32,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <artifactId>testcontainers-common</artifactId>
-    <version>${testcontainers-common.version}</version>
-    <packaging>jar</packaging>
 
     <properties>
         <kotlin.version>1.9.23</kotlin.version>
