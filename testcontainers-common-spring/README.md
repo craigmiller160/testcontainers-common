@@ -12,7 +12,7 @@ Simply add this extension to any test class:
 
 ## How to Configure
 
-Add the following to your test `application.yml`. This controls which containers are enabled. All are enabled by default.
+Add the following to your test `application.yml`. This controls which containers are enabled.
 
 ```yaml
 testcontainers:

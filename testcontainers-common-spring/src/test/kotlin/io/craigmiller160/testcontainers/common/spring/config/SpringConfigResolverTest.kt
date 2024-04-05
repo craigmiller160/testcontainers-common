@@ -75,8 +75,8 @@ class SpringConfigResolverTest {
   fun `resolves configuration with no configuration provided`() {
     val env = MockEnvironment()
     val config = SpringConfigResolver(env).resolve()
-    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.mongo).isNull()
+    assertThat(config.postgres).isNull()
+    assertThat(config.keycloak).isNull()
   }
 }
