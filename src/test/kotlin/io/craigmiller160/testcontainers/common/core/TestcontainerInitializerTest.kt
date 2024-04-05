@@ -99,7 +99,14 @@ class TestcontainerInitializerTest {
 
   @Test
   fun `can initialize mongo only`() {
-    TODO()
+    initResult =
+      TestcontainerInitializer.initialize(
+        TestcontainersCommonConfig(
+          postgres = null, keycloak = null, mongo = ContainerConfig(enable = true)))
+    assertThat(initResult)
+      .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
+      .hasFieldOrPropertyWithValue("mongoStatus", ContainerStatus.STARTED)
   }
 
   @Test
