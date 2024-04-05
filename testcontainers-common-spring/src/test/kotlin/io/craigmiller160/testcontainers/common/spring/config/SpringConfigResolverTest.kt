@@ -21,21 +21,62 @@ class SpringConfigResolverTest {
 
   @Test
   fun `resolves configuration for postgres only`() {
-    TODO()
+    val env =
+        MockEnvironment()
+            .withProperty("testcontainers.common.postgres.enable", "true")
+            .withProperty("testcontainers.common.keycloak.enable", "false")
+            .withProperty("testcontainers.common.mongodb.enable", "false")
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", false)
   }
 
   @Test
   fun `resolves configuration for keycloak only`() {
-    TODO()
+    val env =
+        MockEnvironment()
+            .withProperty("testcontainers.common.postgres.enable", "false")
+            .withProperty("testcontainers.common.keycloak.enable", "true")
+            .withProperty("testcontainers.common.mongodb.enable", "false")
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
   }
 
   @Test
   fun `resolves configuration for mongo only`() {
-    TODO()
+    val env =
+        MockEnvironment()
+            .withProperty("testcontainers.common.postgres.enable", "false")
+            .withProperty("testcontainers.common.keycloak.enable", "false")
+            .withProperty("testcontainers.common.mongodb.enable", "true")
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+  }
+
+  @Test
+  fun `resolves configuration for none of them`() {
+    val env =
+        MockEnvironment()
+            .withProperty("testcontainers.common.postgres.enable", "false")
+            .withProperty("testcontainers.common.keycloak.enable", "false")
+            .withProperty("testcontainers.common.mongodb.enable", "false")
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", false)
   }
 
   @Test
   fun `resolves configuration with no configuration provided`() {
-    TODO()
+    val env = MockEnvironment()
+    val config = SpringConfigResolver(env).resolve()
+    assertThat(config.mongo).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
   }
 }
