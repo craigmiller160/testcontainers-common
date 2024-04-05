@@ -105,7 +105,7 @@ object TestcontainerInitializer {
         .withDatabaseName(TestcontainerConstants.POSTGRES_DB_NAME)
         .withReuse(true)
         .withExposedPorts(5432)
-        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(5433, 5422) }
+        .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(5433, 5432) }
         .also { it.start() }
     val schemaName = getPostgresSchema()
     initializeSchema(container, schemaName)
