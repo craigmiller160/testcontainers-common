@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-class SpringTestcontainersExtension : BeforeAllCallback {
+class SpringTestContainersExtension : BeforeAllCallback {
   override fun beforeAll(context: ExtensionContext) {
     SpringExtension.getApplicationContext(context)
         .let { SpringConfigResolver(it.environment).resolve() }

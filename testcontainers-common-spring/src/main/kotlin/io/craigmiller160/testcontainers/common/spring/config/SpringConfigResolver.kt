@@ -16,7 +16,7 @@ class SpringConfigResolver(private val environment: Environment) : ConfigResolve
           ContainerConfig(it == "true")
         }
     val mongoConfig =
-        environment.getProperty("testcontainers.common.mongo.enable")?.let {
+        environment.getProperty("testcontainers.common.mongodb.enable")?.let {
           ContainerConfig(it == "true")
         }
     return TestcontainersCommonConfig(

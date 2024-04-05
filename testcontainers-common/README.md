@@ -12,12 +12,14 @@ Simply add this extension to any test class:
 
 ## How to Configure
 
-This supports Postgres & Keycloak. A file called `testcontainers-common.yml` must exist on the classpath. It should have the following properties:
+This supports Postgres, Keycloak, and MongoDB. A file called `testcontainers-common.yml` must exist on the classpath. It should have the following properties:
 
 ```yaml
 postgres:
   enable: true
 keycloak:
+  enable: true
+mongodb:
   enable: true
 ```
 

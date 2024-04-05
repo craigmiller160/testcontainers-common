@@ -10,5 +10,5 @@ data class TestcontainersCommonConfig(
   ) : this(
       map["postgres"]?.let { ContainerConfig(it as Map<String, Any>) },
       map["keycloak"]?.let { ContainerConfig(it as Map<String, Any>) },
-      map["mongo"]?.let { ContainerConfig(it as Map<String, Any>) })
+      map["mongodb"]?.let { ContainerConfig(it as Map<String, Any>) })
 }
