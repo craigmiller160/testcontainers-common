@@ -26,11 +26,5 @@ object TestcontainerConstants {
   const val POSTGRES_SCHEMA_PROP = "testcontainers.common.postgres.schema"
 
   const val MONGO_IMAGE = "mongo:6.0.1"
-  const val MONGO_USER = "user"
-  const val MONGO_PASSWORD = "password"
-  const val MONGO_ENV_ROOT_USERNAME = "MONGO_INITDB_ROOT_USERNAME"
-  const val MONGO_ENV_ROOT_PASSWORD = "MONGO_INITDB_ROOT_PASSWORD"
   const val MONGO_URL_PROP = "testcontainers.common.mongodb.url"
-  const val MONGO_USER_PROP = "testcontainers.common.mongodb.user"
-  const val MONGO_PASSWORD_PROP = "testcontainers.common.mongodb.password"
 }
