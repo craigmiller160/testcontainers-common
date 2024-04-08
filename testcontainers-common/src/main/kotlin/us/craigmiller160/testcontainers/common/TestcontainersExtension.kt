@@ -1,9 +1,9 @@
-package io.craigmiller160.testcontainers.common
+package us.craigmiller160.testcontainers.common
 
-import io.craigmiller160.testcontainers.common.config.DefaultConfigResolver
-import io.craigmiller160.testcontainers.common.core.TestcontainerInitializer
 import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
+import us.craigmiller160.testcontainers.common.config.DefaultConfigResolver
+import us.craigmiller160.testcontainers.common.core.TestcontainerInitializer
 
 class TestcontainersExtension : BeforeAllCallback {
   companion object {

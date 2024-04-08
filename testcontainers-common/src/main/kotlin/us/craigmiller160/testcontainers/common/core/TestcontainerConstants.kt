@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
 object TestcontainerConstants {
   const val KEYCLOAK_IMAGE = "quay.io/keycloak/keycloak:20.0.2"

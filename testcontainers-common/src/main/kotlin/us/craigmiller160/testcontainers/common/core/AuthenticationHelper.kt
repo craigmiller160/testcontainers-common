@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef

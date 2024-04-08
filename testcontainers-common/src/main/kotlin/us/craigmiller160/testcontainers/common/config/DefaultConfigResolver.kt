@@ -1,7 +1,7 @@
-package io.craigmiller160.testcontainers.common.config
+package us.craigmiller160.testcontainers.common.config
 
-import io.craigmiller160.testcontainers.common.utils.toResult
 import org.yaml.snakeyaml.Yaml
+import us.craigmiller160.testcontainers.common.utils.toResult
 
 class DefaultConfigResolver(private val filePath: String = "testcontainers-common.yml") :
     ConfigResolver {

@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
 import com.github.dockerjava.api.command.CreateContainerCmd
 import com.github.dockerjava.api.model.ExposedPort
@@ -6,11 +6,11 @@ import com.github.dockerjava.api.model.HostConfig
 import com.github.dockerjava.api.model.PortBinding
 import com.github.dockerjava.api.model.Ports
 import dasniko.testcontainers.keycloak.KeycloakContainer
-import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
-import io.craigmiller160.testcontainers.common.utils.Terminal
 import java.nio.file.Paths
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.containers.PostgreSQLContainer
+import us.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
+import us.craigmiller160.testcontainers.common.utils.Terminal
 
 object TestcontainerInitializer {
   fun initialize(config: TestcontainersCommonConfig): ContainerInitializationResult {

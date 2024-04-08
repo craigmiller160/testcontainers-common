@@ -1,11 +1,11 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
-import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import kotlin.test.assertEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import us.craigmiller160.testcontainers.common.config.ContainerConfig
+import us.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 
 class TestcontainerInitializerTest {
   private var initResult: ContainerInitializationResult? = null
@@ -80,7 +80,9 @@ class TestcontainerInitializerTest {
     initResult =
         TestcontainerInitializer.initialize(
             TestcontainersCommonConfig(
-                postgres = ContainerConfig(enable = true), keycloak = null, mongo = null))
+                postgres = ContainerConfig(enable = true),
+                keycloak = ContainerConfig(enable = false),
+                mongo = ContainerConfig(enable = false)))
     assertThat(initResult)
         .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.STARTED)
         .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
@@ -94,7 +96,9 @@ class TestcontainerInitializerTest {
     initResult =
         TestcontainerInitializer.initialize(
             TestcontainersCommonConfig(
-                postgres = null, keycloak = ContainerConfig(enable = true), mongo = null))
+                postgres = ContainerConfig(enable = false),
+                keycloak = ContainerConfig(enable = true),
+                mongo = ContainerConfig(enable = false)))
     assertThat(initResult)
         .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
         .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.STARTED)
@@ -108,7 +112,9 @@ class TestcontainerInitializerTest {
     initResult =
         TestcontainerInitializer.initialize(
             TestcontainersCommonConfig(
-                postgres = null, keycloak = null, mongo = ContainerConfig(enable = true)))
+                postgres = ContainerConfig(enable = false),
+                keycloak = ContainerConfig(enable = false),
+                mongo = ContainerConfig(enable = true)))
     assertThat(initResult)
         .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
         .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)
@@ -121,7 +127,10 @@ class TestcontainerInitializerTest {
   fun `can initialize nothing`() {
     initResult =
         TestcontainerInitializer.initialize(
-            TestcontainersCommonConfig(postgres = null, keycloak = null, mongo = null))
+            TestcontainersCommonConfig(
+                postgres = ContainerConfig(enable = false),
+                keycloak = ContainerConfig(enable = false),
+                mongo = ContainerConfig(enable = false)))
     assertThat(initResult)
         .hasFieldOrPropertyWithValue("postgresStatus", ContainerStatus.DISABLED)
         .hasFieldOrPropertyWithValue("keycloakStatus", ContainerStatus.DISABLED)

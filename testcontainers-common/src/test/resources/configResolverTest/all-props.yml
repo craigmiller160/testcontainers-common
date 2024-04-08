@@ -2,3 +2,5 @@ postgres:
   enable: true
 keycloak:
   enable: true
+mongo:
+  enable: true
