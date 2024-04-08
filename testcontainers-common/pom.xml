@@ -6,8 +6,8 @@
 
     <parent>
         <artifactId>testcontainers-common-parent</artifactId>
-        <groupId>io.craigmiller160</groupId>
-        <version>1.3.0-SNAPSHOT</version>
+        <groupId>us.craigmiller160</groupId>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
