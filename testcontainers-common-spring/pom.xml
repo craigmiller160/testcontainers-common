@@ -69,7 +69,7 @@
         </dependency>
         <dependency>
             <artifactId>testcontainers-common</artifactId>
-            <groupId>io.craigmiller160</groupId>
+            <groupId>us.craigmiller160</groupId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
