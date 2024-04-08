@@ -10,15 +10,15 @@ class SpringConfigResolver(private val environment: Environment) : ConfigResolve
     val postgresConfig =
         environment.getProperty("testcontainers.common.postgres.enable")?.let {
           ContainerConfig(it == "true")
-        }
+        } ?: ContainerConfig(enable = false)
     val keycloakConfig =
         environment.getProperty("testcontainers.common.keycloak.enable")?.let {
           ContainerConfig(it == "true")
-        }
+        } ?: ContainerConfig(enable = false)
     val mongoConfig =
         environment.getProperty("testcontainers.common.mongodb.enable")?.let {
           ContainerConfig(it == "true")
-        }
+        } ?: ContainerConfig(enable = false)
     return TestcontainersCommonConfig(
         postgres = postgresConfig, keycloak = keycloakConfig, mongo = mongoConfig)
   }

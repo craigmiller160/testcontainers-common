@@ -18,7 +18,9 @@ class AuthenticationHelperTest {
     fun setup() {
       TestcontainerInitializer.initialize(
           TestcontainersCommonConfig(
-              postgres = null, mongo = null, keycloak = ContainerConfig(enable = true)))
+              postgres = ContainerConfig(enable = false),
+              mongo = ContainerConfig(enable = false),
+              keycloak = ContainerConfig(enable = true)))
     }
   }
 
