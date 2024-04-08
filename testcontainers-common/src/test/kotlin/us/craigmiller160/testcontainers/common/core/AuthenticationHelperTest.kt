@@ -1,7 +1,5 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
-import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import java.util.UUID
 import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
@@ -10,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.idm.RoleRepresentation
+import us.craigmiller160.testcontainers.common.config.ContainerConfig
+import us.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 
 class AuthenticationHelperTest {
   companion object {

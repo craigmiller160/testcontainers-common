@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.utils
+package us.craigmiller160.testcontainers.common.utils
 
 fun <T> T?.toResult(messageIfNull: String = ""): Result<T> =
     when (this) {

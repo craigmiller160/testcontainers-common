@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.config
+package us.craigmiller160.testcontainers.common.config
 
 import java.lang.NullPointerException
 import kotlin.test.assertEquals

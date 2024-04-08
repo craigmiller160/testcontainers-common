@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.utils
+package us.craigmiller160.testcontainers.common.utils
 
 import java.io.File
 import java.util.concurrent.TimeUnit

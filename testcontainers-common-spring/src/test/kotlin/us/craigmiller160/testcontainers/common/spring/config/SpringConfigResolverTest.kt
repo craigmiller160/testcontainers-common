@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.spring.config
+package us.craigmiller160.testcontainers.common.spring.config
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

@@ -1,9 +1,9 @@
-package io.craigmiller160.testcontainers.common.spring.config
+package us.craigmiller160.testcontainers.common.spring.config
 
-import io.craigmiller160.testcontainers.common.config.ConfigResolver
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
-import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import org.springframework.core.env.Environment
+import us.craigmiller160.testcontainers.common.config.ConfigResolver
+import us.craigmiller160.testcontainers.common.config.ContainerConfig
+import us.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 
 class SpringConfigResolver(private val environment: Environment) : ConfigResolver {
   override fun resolve(): TestcontainersCommonConfig {

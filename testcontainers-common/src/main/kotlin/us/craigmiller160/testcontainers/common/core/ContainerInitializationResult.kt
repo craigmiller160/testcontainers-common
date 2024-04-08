@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
 import dasniko.testcontainers.keycloak.KeycloakContainer
 import org.testcontainers.containers.MongoDBContainer

@@ -1,4 +1,4 @@
-package io.craigmiller160.testcontainers.common.config
+package us.craigmiller160.testcontainers.common.config
 
 data class TestcontainersCommonConfig(
     val postgres: ContainerConfig?,

@@ -1,11 +1,11 @@
-package io.craigmiller160.testcontainers.common.core
+package us.craigmiller160.testcontainers.common.core
 
-import io.craigmiller160.testcontainers.common.config.ContainerConfig
-import io.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 import kotlin.test.assertEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import us.craigmiller160.testcontainers.common.config.ContainerConfig
+import us.craigmiller160.testcontainers.common.config.TestcontainersCommonConfig
 
 class TestcontainerInitializerTest {
   private var initResult: ContainerInitializationResult? = null
