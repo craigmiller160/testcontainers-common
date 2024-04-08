@@ -1,0 +1,4 @@
+testcontainers:
+  common:
+    postgres:
+      enable: true
