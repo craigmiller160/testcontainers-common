@@ -11,32 +11,45 @@ class DefaultConfigResolverTest {
   fun `resolves configuration for all properties`() {
     val resolver = DefaultConfigResolver("configResolverTest/all-props.yml")
     val config = resolver.resolve()
-    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.postgres).hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.keycloak).hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.mongo).hasFieldOrPropertyWithValue("enable", true)
   }
 
   @Test
   fun `resolves configuration for postgres only`() {
     val resolver = DefaultConfigResolver("configResolverTest/postgres-only.yml")
     val config = resolver.resolve()
-    assertThat(config.postgres).isNotNull.hasFieldOrPropertyWithValue("enable", true)
-    assertThat(config.keycloak).isNull()
+    assertThat(config.postgres).hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.keycloak).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.mongo).hasFieldOrPropertyWithValue("enable", false)
+  }
+
+  @Test
+  fun `resolves configuration for mongo only`() {
+    val resolver = DefaultConfigResolver("configResolverTest/mongo-only.yml")
+    val config = resolver.resolve()
+    assertThat(config.postgres).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.mongo).hasFieldOrPropertyWithValue("enable", true)
   }
 
   @Test
   fun `resolves configuration for keycloak only`() {
     val resolver = DefaultConfigResolver("configResolverTest/keycloak-only.yml")
     val config = resolver.resolve()
-    assertThat(config.postgres).isNull()
-    assertThat(config.keycloak).isNotNull.hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.postgres).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).hasFieldOrPropertyWithValue("enable", true)
+    assertThat(config.mongo).hasFieldOrPropertyWithValue("enable", false)
   }
 
   @Test
   fun `resolves configuration with no configuration in file`() {
     val resolver = DefaultConfigResolver("configResolverTest/nothing.yml")
     val config = resolver.resolve()
-    assertThat(config.postgres).isNull()
-    assertThat(config.keycloak).isNull()
+    assertThat(config.postgres).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.keycloak).hasFieldOrPropertyWithValue("enable", false)
+    assertThat(config.mongo).hasFieldOrPropertyWithValue("enable", false)
   }
 
   @Test
