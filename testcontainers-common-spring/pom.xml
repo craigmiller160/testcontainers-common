@@ -10,6 +10,19 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Releases</name>
+            <url>https://nexus.craigmiller160.us/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>https://nexus.craigmiller160.us/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <artifactId>testcontainers-common-spring</artifactId>
 
     <properties>
