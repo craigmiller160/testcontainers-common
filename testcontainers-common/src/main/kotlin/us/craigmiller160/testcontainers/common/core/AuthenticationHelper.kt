@@ -2,10 +2,10 @@ package us.craigmiller160.testcontainers.common.core
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import jakarta.ws.rs.NotFoundException
 import java.net.URI
 import java.util.Base64
 import java.util.UUID
+import javax.ws.rs.NotFoundException
 import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.HttpClients
