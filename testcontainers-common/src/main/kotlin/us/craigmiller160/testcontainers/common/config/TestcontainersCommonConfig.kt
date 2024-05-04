@@ -10,7 +10,7 @@ data class TestcontainersCommonConfig(
   ) : this(
       map.getContainerConfig("postgres"),
       map.getContainerConfig("keycloak"),
-      map.getContainerConfig("mongo"))
+      map.getContainerConfig("mongodb"))
 }
 
 private fun Map<String, Any>.getContainerConfig(key: String): ContainerConfig =
