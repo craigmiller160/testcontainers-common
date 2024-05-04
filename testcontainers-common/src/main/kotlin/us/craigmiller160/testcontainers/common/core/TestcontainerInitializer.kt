@@ -49,6 +49,7 @@ object TestcontainerInitializer {
         MongoDBContainer(TestcontainerConstants.MONGO_IMAGE)
             .withExposedPorts(27017)
             .withCreateContainerCmdModifier { cmd -> cmd.bindToPublicPort(27018, 27017) }
+            .withReuse(true)
             .also { it.start() }
     System.setProperty(TestcontainerConstants.MONGO_URL_PROP, container.replicaSetUrl)
 
