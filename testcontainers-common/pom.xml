@@ -115,7 +115,6 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
             <version>${keycloak.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
